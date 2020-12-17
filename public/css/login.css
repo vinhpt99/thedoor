@@ -1,0 +1,38 @@
+.antialiased
+{
+    background-image: url("../img/home-1.png"); /* The image used */
+    
+  
+}
+.limiter {
+  background-color: white;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -100px;
+}
+.login_form {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 40px 40px !important;
+    
+}
+
+.login_form input{
+    margin: 20px 0;
+}
+.login_form button{
+    width: 100px;
+    margin-left: 32%;
+}
+.login_page_main__body{
+    margin-top: 20px;
+    padding-top: 20vh;
+
+}
+.login_page_main__body h3 {
+    color: #fff;
+    text-align: center;
+}
+
