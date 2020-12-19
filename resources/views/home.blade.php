@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="{{asset('css/normalize.css')}}">
   <link rel="stylesheet" href="{{asset('css/main.css')}}">
   <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,300;0,400;0,500;1,200;1,300;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,300;0,400;0,500;1,200;1,300;1,400&display=swap" rel="stylesheet">
   <script src="js/vendor/modernizr-2.6.2.min.js"></script>
   <link href="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
   <!-- full page -->
@@ -28,32 +28,36 @@
     <header id="header">
       <!-- Menu destop -->
       <div class="menu fixed-top" id="menu">
-        <div class="container d-flex justify-content-between">
+        <div class="container-fluid door_header d-flex justify-content-between">
           <div class="logo">
             <a href="/" class="d-flex justify-content-start">
-              <div class="thum-logo pr-2">
+              <div class="thum-logo pr-2 text-dark">
                 <img src="{{asset('img/logo/logo-w.png')}}" class="img-fluid logo1" alt="">
                 <img src="{{asset('img/logo/logo-b.png')}}" class="img-fluid logo2" alt="">
               </div>
-              <h3 class="d-flex align-items-end pb-2">THE DOOR</h3>
+              <h2 class="d-flex align-items-end pb-2 text-dark font-weight-bold " style="display: block; color: #999;text-shadow: 2px 2px  #fff;">THE DOOR</h2>
             </a>
           </div>
           <div class="left-menu d-flex justify-content-between">
             <div class="search d-none d-sm-block">
               <form class="form-inline my-2 my-lg-0" method="post" action="/p/search">
                 @csrf
-                <input class="form-control mr-sm-2" name="key" placeholder="Search" aria-label="Search">
+                <input class="form-control search_input mr-sm-2" name="key" placeholder="Search" aria-label="Search">
                 <button class="btn btn-secondary" type="submit"><i class="fa fa-search"></i></button>
               </form>
             </div>
-            <div class="lang pr-4 d-flex justify-content-start">
-              <a href="#">VI</a>
-              <span class="pl-2 pr-2">|</span>
-              <a href="#">EN</a>
-            </div>
-            <div class="menu-button mt-1 d-flex flex-column">
-              <span class="btn1"></span>
-              <span class="btn2"></span>
+            <div>
+              <div class="menu_language">
+                <div class="lang pr-4 d-flex justify-content-start">
+                  <a href="#">VI</a>
+                  <span class="pl-2 pr-2">|</span>
+                  <a href="#">EN</a>
+                </div>
+                <div class="menu-button mt-1 d-flex flex-column">
+                  <span class="btn1"></span>
+                  <span class="btn2"></span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -62,54 +66,63 @@
       <!-- End menu -->
       <div id="carouselExampleIndicators" class="carousel slide d-none d-sm-block">
         <ol class="carousel-indicators">
-          @for($i=0; $i < $count; $i++) @if($i==0) <li data-target="#carouselExampleIndicators" data-slide-to="0"
-            class="active">
+          @for($i=0; $i < $count; $i++) @if($i==0) <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">
             </li>
             @else
             <li data-target="#carouselExampleIndicators" data-slide-to="{{$i}}"></li>
             @endif
             @endfor
         </ol>
-        <div class="carousel-inner">
-          <?php $index=1; ?>
+        <div class="carousel-inner first_page">
+          <?php $index = 1; ?>
           @foreach($slide as $k)
           @if($index==1)
           <div class="carousel-item active">
-            <img class="d-block w-100" src="{{asset('storage/img/'.$k->image)}}" alt="First slide">
+            <img class="d-block w-100" src="img/home-test.png" alt="{{$k->title}}">
             <div class="carousel-caption">
               <div class="row">
                 <div class="col-12 col-md-7">
                   <div class="content-slide text-left">
                     <h2 class="pb-3">{{$k->title}}</h2>
                     <p>{{$k->describe}}</p>
-                    <button class="btn btn-secondary d-none d-sm-block">Read More<i
-                        class="fa fa-angle-double-right pl-1" aria-hidden="true"></i></button>
+                    <button class="btn btn-secondary d-none d-sm-block">Read More<i class="fa fa-angle-double-right pl-1" aria-hidden="true"></i></button>
                   </div>
                 </div>
               </div>
               <!-- end row -->
+              <div class="social_network">
+                <ul class="d-flex pl-2 justify-content-start footer-social social_network__list social_network___page_dark page_dark_1">
+                  <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                  <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                  <li><a href="https://www.facebook.com/dongocminh.FTU" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                  <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                  <li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                </ul>
+              </div>
             </div>
           </div>
+
           @else
           <div class="carousel-item">
-            <img class="d-block w-100" src="{{asset('storage/img/'.$k->image)}}" alt="First slide">
+            <img class="d-block w-100" src="{{asset('upload/slides'.$k->image)}}" alt="{{$k->title}}">
             <div class="carousel-caption">
               <div class="row">
                 <div class="col-12 col-md-7">
                   <div class="content-slide text-left">
                     <h2 class="pb-3">{{$k->title}}</h2>
                     <p>{{$k->describe}}</p>
-                    <button class="btn btn-secondary d-none d-sm-block">Read More<i
-                        class="fa fa-angle-double-right pl-1" aria-hidden="true"></i></button>
+                    <button class="btn btn-secondary d-none d-sm-block">Read More<i class="fa fa-angle-double-right pl-1" aria-hidden="true"></i></button>
                   </div>
                 </div>
               </div>
               <!-- end row -->
             </div>
           </div>
+
           @endif
           <?php $index++; ?>
           @endforeach
+
         </div>
       </div>
       <div class="carousel-mobile d-block d-sm-none">
@@ -127,6 +140,7 @@
             <a href="" class="btn btn-secondary mt-4 bg-white text-dark border-0">READ MORE</a>
           </div>
         </div>
+
       </div>
 
       <!-- navigate -->
@@ -154,7 +168,7 @@
   {{-- OUrstory --}}
   <div class="section fp-auto-height" id="section1">
     <div id="our-story">
-      <?php $story =0; ?>
+      <?php $story = 0; ?>
       @if ($layouts)
       @foreach ($layouts as $l)
       @if($l->offset == 2)
@@ -173,8 +187,10 @@
       @endif
       <img class="d-block d-sm-none" src="{{asset('img/mobile/page-2.png')}}" alt="">
       <div class="container story-content">
-        <div class="img-story">
-          <img src="{{asset('img/story-1.jpg')}}" class="img-fluid" alt="">
+        <div>
+          <video width="677" loop="true" autoplay="autoplay" controls muted>
+            <source src="img/movie.mp4" type="video/mp4">
+          </video>
         </div>
         <p class="mt-5">
           We are not a traditional ad agency network —we are a radically open creative collective
@@ -194,15 +210,26 @@
       <div class="page-number d-none d-sm-block text-dark">
         <img src="{{asset('img/page/page-2.png')}}" alt="">
       </div>
+      <div class="social_network">
+        <ul class="d-flex pl-2 justify-content-start footer-social social_network__list social_network___page_light">
+          <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+          <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+          <li><a href="https://www.facebook.com/dongocminh.FTU" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+          <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+          <li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+        </ul>
+      </div>
     </div>
+
   </div>
   <!-- clients -->
   <div class="section fp-auto-height" id="section2">
     <div id="clients">
-      <?php $clients =0; ?>
+      <?php $clients = 0; ?>
       @if ($layouts)
       @foreach ($layouts as $l)
       @if($l->offset == 3)
+      <img class="about-bg d-none d-sm-block" src="{{asset('/storage/img/'.$l->link)}}" alt="">
       <?php $clients++; ?>
       @endif
       @endforeach
@@ -225,12 +252,6 @@
                 <div class="col-6 col-md-12">
                   <a href="#about-us">THIS SPOT AWAITS YOU</a>
                 </div>
-                <div class="col-6 col-md-12">
-                  <div class="navi-btn mt">
-                    <i class="fa fa-angle-left customNextBtn fa-2x pr-2" aria-hidden="true"></i>
-                    <i class="fa fa-angle-right customPrevBtn fa-2x pl-2" aria-hidden="true"></i>
-                  </div>
-                </div>
               </div>
 
 
@@ -243,7 +264,7 @@
                 <div class="item">
                   <a href="#" class="div-brand">
                     <div class="img-brand">
-                      <img src="{{asset('/storage/img/'.$c->image)}}" class="img-fluid" alt="">
+                      <img src="img/p3-o2.png" class="img-fluid" alt="">
                     </div>
                     <p class="title-brand text-center">{{$c->customer_name}}</p>
                   </a>
@@ -256,7 +277,17 @@
             {{-- end show brand --}}
           </div>
         </div>
+        <div class="social_network" style="margin-top:220px;">
+          <ul class="d-flex pl-2 justify-content-start footer-social social_network__list social_network___page_dark">
+            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+            <li><a href="https://www.facebook.com/dongocminh.FTU" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+            <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+            <li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+          </ul>
+        </div>
       </div>
+
       {{-- end content brand --}}
 
 
@@ -278,7 +309,7 @@
   {{-- what --}}
   <div class="section fp-auto-height" id="section3">
     <div id="what">
-      <?php $what =0; ?>
+      <?php $what = 0; ?>
       @if ($layouts)
       @foreach ($layouts as $l)
       @if($l->offset == 4)
@@ -351,6 +382,16 @@
           </div>
           {{-- end col 8 --}}
         </div>
+
+      </div>
+      <div class="social_network">
+        <ul class="d-flex pl-2 justify-content-start footer-social social_network__list social_network___page_light">
+          <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+          <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+          <li><a href="https://www.facebook.com/dongocminh.FTU" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+          <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+          <li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+        </ul>
       </div>
       {{-- end content what --}}
       <!-- navigate -->
@@ -369,7 +410,7 @@
   <!-- human-of-the-door -->
   <div class="section fp-auto-height" id="section4">
     <div id="human-of-the-door">
-      <?php $human =0; ?>
+      <?php $human = 0; ?>
       @if ($layouts)
       @foreach ($layouts as $l)
       @if($l->offset == 5)
@@ -393,8 +434,7 @@
           to end purchase.</p>
         <img src="{{asset('img/article/1.png')}}" class="w-100" alt="">
         <div class="meet text-center">
-          <a href="" class="btn btn-outline-secondary meet-team"><span>Meet the team</span><img
-              src="img/arrow-right.png" class="m-0 pl-1" alt=""></a>
+          <a href="" class="btn btn-outline-secondary meet-team"><span>Meet the team</span><img src="img/arrow-right.png" class="m-0 pl-1" alt=""></a>
         </div>
       </div>
       {{-- end mobile --}}
@@ -403,8 +443,12 @@
         <div class="two-carousel owl-carousel">
           @if($staffs)
           @foreach ($staffs as $s)
-          <div class="item p3-img"><a href="#"><img src="{{asset('storage/img/'.$s->photo)}}" alt=""
-                id="p3-img-size" /></a></div>
+          <div class="item p3-img thedoor_staff"><a href="#"><img src="img/p3-o1.png" alt="" id="p3-img-size" /></a>
+            <div class="staff_name__display">
+              <h3 class="staff_name">Nguyễn Văn A</h3>
+            </div>
+          </div>
+
           @endforeach
           @endif
         </div>
@@ -420,13 +464,24 @@
       </div>
       <div class="page-number d-none d-sm-block">
         <img src="{{asset('img/page/page-5.png')}}" alt="">
+        <div class="social_network" style="position: absolute; bottom: 0px; right: -139vh;">
+          <ul class="d-flex pl-2 justify-content-start footer-social social_network__list social_network___page_dark">
+            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+            <li><a href="https://www.facebook.com/dongocminh.FTU" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+            <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+            <li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+          </ul>
+        </div>
       </div>
+
     </div>
+
   </div>
   {{-- Article --}}
   <div class="section fp-auto-height" id="section5">
     <div id="article">
-      <?php $article =0; ?>
+      <?php $article = 0; ?>
       @if ($layouts)
       @foreach ($layouts as $l)
       @if($l->offset == 6)
@@ -465,14 +520,14 @@
               <div class="col-lg-12">
                 <div class="one-article">
                   <a href="/post/{{$blog->slug}}" class="thumb-article">
-                    <img src="{{asset('/storage/img/'.$blog->thumbnail)}}" alt="">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-3bwO1vgsipxSFOSAHr7r5ux1p_3lfXlDlg&usqp=CAU" alt="">
                   </a>
                   <a href="/post/{{$blog->slug}}">
                     <h3 class="title-post">{{$blog->title}}</h3>
                   </a>
-                   <div class="article-info">
-                    by  <b>{{$blog->name}}</b> - <span>{{date('F d Y', strtotime($blog->created_at))}}</span>
-                  </div> 
+                  <div class="article-info">
+                    by <b>{{$blog->name}}</b> - <span>{{date('F d Y', strtotime($blog->created_at))}}</span>
+                  </div>
                 </div>
                 {{-- end one-article --}}
               </div>
@@ -503,13 +558,22 @@
       </div>
       <div class="page-number d-none d-sm-block">
         <img src="{{asset('img/page/page-6.png')}}" alt="">
+        <div class="social_network" style="position: absolute; bottom: 0px; right: -139vh;">
+          <ul class="d-flex pl-2 justify-content-start footer-social social_network__list social_network___page_light">
+            <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+            <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+            <li><a href="https://www.facebook.com/dongocminh.FTU" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+            <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+            <li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
   <!-- Contact Us -->
   <div class="section fp-auto-height" id="section6">
     <div id="about-us">
-      <?php $about =0; ?>
+      <?php $about = 0; ?>
       @if ($layouts)
       @foreach ($layouts as $l)
       @if($l->offset == 7)
@@ -535,9 +599,9 @@
               <div class="col-lg-6">
                 <div class="about-left text-center text-white p1">
                   <div class="col-lg-8 offset-lg-2">
-                   
+
                     <div class="page-section">
-                     
+
                       <p>Here we are</p>
                       <small>let's work together</small>
                     </div>
@@ -557,6 +621,15 @@
 
               </div>
             </div>
+            <div class="social_network" style="margin-top:165px;">
+              <ul class="d-flex pl-2 justify-content-start footer-social social_network__list social_network___page_dark">
+                <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                <li><a href="https://www.facebook.com/dongocminh.FTU" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                <li><a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+              </ul>
+            </div>
           </div>
         </div>
         <!-- End section two -->
@@ -572,8 +645,7 @@
                     <div class="about-left text-center text-white p1">
                       <div class="col-lg-8 offset-lg-2">
                         <h3 class="text-center pb-3">Hire us</h3>
-                        <button type="submit" class="btn btn-outline-light btn-send" id="hius"><i
-                            class="fa fa-paper-plane pr-1" aria-hidden="true"></i>Send Us</button>
+                        <button type="submit" class="btn btn-outline-light btn-send" id="hius"><i class="fa fa-paper-plane pr-1" aria-hidden="true"></i>Send Us</button>
                       </div>
                     </div>
                   </div>
@@ -588,20 +660,17 @@
                     <div class="about-right">
                       <div class="form-group">
                         <label for="exampleInputEmail1">WHAT'S YOUR NAME</label>
-                        <input type="text" name="partner_name" class="form-control" id="exampleInputEmail1"
-                          aria-describedby="emailHelp">
+                        <input type="text" name="partner_name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                         <span class="error-form"></span>
                       </div>
                       <div class="form-group">
                         <label for="exampleInputEmail1">DO YOU HAVE E-MAIL ?</label>
-                        <input type="email" name="email" class="form-control" id="exampleInputEmail1"
-                          aria-describedby="emailHelp">
+                        <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                         <span class="error-form"></span>
                       </div>
                       <div class="form-group">
                         <label for="exampleInputEmail1">WHAT'S YOUR PHONE NUMBER?</label>
-                        <input type="text" name="phone" class="form-control" id="exampleInputEmail1"
-                          aria-describedby="emailHelp">
+                        <input type="text" name="phone" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                         <span class="error-form"></span>
                       </div>
                       <div class="form-group">
@@ -611,8 +680,7 @@
                             @foreach($serv as $s)
                             <div class="col-lg-6">
                               <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="service_id"
-                                  value="{{$s->id}}"><span>{{$s->service_name}}</span>
+                                <input type="radio" class="form-check-input" name="service_id" value="{{$s->id}}"><span>{{$s->service_name}}</span>
                                 <span class="error-form"></span>
                               </label>
 
@@ -636,15 +704,21 @@
 
                       </div>
                       <div class="form-group text-center d-block d-sm-none">
-                        <button type="submit" class="btn btn-outline-light btn-send btn-sm" id="mobile-hius"><i
-                          class="fa fa-paper-plane pr-1" aria-hidden="true"></i>Send Us</button>
+                        <button type="submit" class="btn btn-outline-light btn-send btn-sm" id="mobile-hius"><i class="fa fa-paper-plane pr-1" aria-hidden="true"></i>Send Us</button>
                       </div>
+
                     </div>
+
                   </div>
+
                 </div>
+
               </div>
+
             </form>
+
           </div>
+
         </div>
         <!-- Section three -->
         <div class="section-three tab-content" id="tab3">
@@ -658,8 +732,7 @@
                     <div class="col-lg-8 offset-lg-2">
                       <h3 class="text-center pb-3">Be part of
                         our team</h3>
-                      <button type="submit" id="team" class="btn btn-outline-light btn-send"><i
-                          class="fa fa-paper-plane pr-1" aria-hidden="true"></i>Send Us</button>
+                      <button type="submit" id="team" class="btn btn-outline-light btn-send"><i class="fa fa-paper-plane pr-1" aria-hidden="true"></i>Send Us</button>
                     </div>
 
                   </div>
@@ -676,20 +749,17 @@
                   <div class="about-right">
                     <div class="form-group">
                       <label for="exampleInputEmail1">WHAT'S YOUR NAME</label>
-                      <input type="text" name="name" class="form-control" id="exampleInputEmail1"
-                        aria-describedby="emailHelp">
+                      <input type="text" name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                       <span class="error-form"></span>
                     </div>
                     <div class="form-group">
                       <label for="exampleInputEmail1">DO YOU HAVE E-MAIL ?</label>
-                      <input type="email" name="email" class="form-control" id="exampleInputEmail1"
-                        aria-describedby="emailHelp">
+                      <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                       <span class="error-form"></span>
                     </div>
                     <div class="form-group">
                       <label for="exampleInputEmail1">WHAT'S YOUR PHONE NUMBER?</label>
-                      <input type="text" name="project_name" class="form-control" id="exampleInputEmail1"
-                        aria-describedby="emailHelp">
+                      <input type="text" name="project_name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                       <span class="error-form"></span>
                     </div>
                     <div class="form-group">
@@ -699,8 +769,7 @@
                           @foreach($sldept as $sl)
                           <div class="col-lg-6">
                             <label class="form-check-label">
-                              <input type="radio" class="form-check-input radio-contact" name="dept_id"
-                                value="{{$sl->id}}"><span>{{$sl->dept_name}}</span>
+                              <input type="radio" class="form-check-input radio-contact" name="dept_id" value="{{$sl->id}}"><span>{{$sl->dept_name}}</span>
                             </label>
                             <span class="error-form"></span>
                           </div>
@@ -719,8 +788,7 @@
                       </div>
                     </div>
                     <div class="form-group text-center d-block d-sm-none">
-                      <button type="submit" class="btn btn-outline-light btn-send btn-sm" id="mobile-team"><i
-                        class="fa fa-paper-plane pr-1" aria-hidden="true"></i>Send Us</button>
+                      <button type="submit" class="btn btn-outline-light btn-send btn-sm" id="mobile-team"><i class="fa fa-paper-plane pr-1" aria-hidden="true"></i>Send Us</button>
                     </div>
                   </div>
                 </div>
@@ -738,8 +806,7 @@
                   <div class="about-left text-center text-white p1">
                     <div class="col-lg-8 offset-lg-2">
                       <h3 class="text-center pb-3">Something else</h3>
-                      <button id="something" class="btn btn-outline-light btn-send" name="btn_fb"><i
-                          class="fa fa-paper-plane pr-1" aria-hidden="true"></i>Send Us</button>
+                      <button id="something" class="btn btn-outline-light btn-send" name="btn_fb"><i class="fa fa-paper-plane pr-1" aria-hidden="true"></i>Send Us</button>
                     </div>
                   </div>
                 </div>
@@ -755,25 +822,21 @@
 
                     <div class="form-group">
                       <label for="exampleInputEmail1">WHAT'S YOUR NAME</label>
-                      <input type="text" name="name" class="form-control" id="exampleInputEmail1"
-                        aria-describedby="emailHelp">
+                      <input type="text" name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                       <span class="error-form"></span>
                     </div>
                     <div class="form-group">
                       <label for="exampleInputEmail1">DO YOU HAVE E-MAIL ?</label>
-                      <input type="email" name="email" class="form-control" id="exampleInputEmail1"
-                        aria-describedby="emailHelp">
+                      <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                       <span class="error-form"></span>
                     </div>
                     <div class="form-group">
                       <label for="exampleInputEmail1">WHAT’S YOUR MESSAGE DEAR?</label>
-                      <textarea class="form-control" name="describe" id="exampleFormControlTextarea1" rows="8"
-                        placeholder="Enter text here..."></textarea>
+                      <textarea class="form-control" name="describe" id="exampleFormControlTextarea1" rows="8" placeholder="Enter text here..."></textarea>
                       <span class="error-form"></span>
                     </div>
                     <div class="form-group text-center d-block d-sm-none">
-                      <button type="submit" class="btn btn-outline-light btn-send btn-sm" id="mobile-something"><i
-                        class="fa fa-paper-plane pr-1" aria-hidden="true"></i>Send Us</button>
+                      <button type="submit" class="btn btn-outline-light btn-send btn-sm" id="mobile-something"><i class="fa fa-paper-plane pr-1" aria-hidden="true"></i>Send Us</button>
                     </div>
                   </div>
 
@@ -781,6 +844,7 @@
               </div>
             </div>
           </form>
+
         </div>
         <div class="scroll-div d-none d-sm-block">
           <div class="scroll-to d-flex justify-content-between text-white">
@@ -794,12 +858,15 @@
         </div>
       </div>
       <!-- navigate -->
+
     </div>
+
   </div>
+
   {{-- Article --}}
   <div class="section fp-auto-height" id="section7">
     <footer id="footer">
-      <?php $footer =0; ?>
+      <?php $footer = 0; ?>
       @if ($layouts)
       @foreach ($layouts as $l)
       @if($l->offset == 8)
@@ -927,8 +994,14 @@
 <script src="js/fullpage.js"></script>
 <script type="text/javascript">
   var myFullpage = new fullpage('#fullpage', {
-        scrollBar: true
-      });
+    scrollBar: true
+  });
+  $(document).ready(function() {
+    $('video').prop('muted', true).play()
+  });
+</script>
+<script>
+
 </script>
 </body>
 
