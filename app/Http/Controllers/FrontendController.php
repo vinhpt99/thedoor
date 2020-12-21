@@ -22,10 +22,13 @@ class FrontendController extends Controller
         $count = Slide::select('*')->where('active_status',1)->where('delete_status',1)->count();
         $serv = Service::select('service_name','id')->where('delete_status',1)->get();
         $sldept = Dept::select('dept_name','id')->where('delete_status',1)->get();
-        $staffs = Staff::select('slug', 'photo')->where('delete_status',1)->orderBy('created_at', 'desc')->get();
+        $staffs = Staff::where('delete_status',1)->orderBy('created_at', 'desc')->get();
         $customers = Customer::select('id', 'customer_name', 'image')->where('delete_status', 1)->get();
         $layouts = Layout::select('link', 'offset')->where('delete_status',1)->get();
-        $products = Product::where('delete_status',1)->get();
+        $products = DB::table('products')
+        ->where('products.delete_status', 1)
+        ->join('customers', 'products.id_customer', '=', 'customers.id')
+        ->get();
         $blogs =  DB::table('blogs')
         ->where('blogs.delete_status',1)
         ->where('blogs.status',1)

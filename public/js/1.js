@@ -1,12 +1,9 @@
 
-
 $(document).ready(function () {
-    
-    // $("#owl-article").owlCarousel();
+   
     $('#owl-article').owlCarousel({
         loop:true,
         margin:10,
-       
         responsive:{
             0:{
                 items:1
@@ -26,146 +23,9 @@ $(document).ready(function () {
         owl.trigger('next.owl.carousel');
     })
     $('.preArticle').click(function() {
-        // With optional speed parameter
-        // Parameters has to be in square bracket '[]'
         owl.trigger('prev.owl.carousel', [300]);
     })
     // BUtton hi us
-    $('#hius').on('click', function(e){
-        e.preventDefault()
-        $.ajax({
-            // header:{
-            //     'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
-            // },
-            url: 'add_hire',
-            data: new FormData($("#form1 form")[0]),
-            contentType: false,
-            processData: false,
-            method: 'post',
-            success: function(data) {
-                toastr.success(data.success)
-                $('#form1 form')[0].reset();
-            },
-            error: function(error) {
-                console.log(error);
-                var errors = error.responseJSON;
-                $.each(errors.errors, function(i, val) {
-                    $("#form1 input[name=" + i + "]").siblings('.error-form').text(val[0]);
-                  
-                })
-            }
-        });
-    });
-    // end hius
-    $('#team').on('click', function(e){
-        e.preventDefault()
-        $.ajax({
-
-            header:{
-                'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
-            },
-            url: 'add_candidate',
-            data: new FormData($("#form2")[0]),
-            contentType: false,
-            processData: false,
-            method: 'post',
-            success: function(data) {
-                // toastr.success(data.success)
-                // $('#form3')[0].reset();
-                console.log(data);
-            },
-            error: function(error) {
-                console.log(error);
-                var errors = error.responseJSON;
-                $.each(errors.errors, function(i, val) {
-                    $("#form2 input[name=" + i + "]").siblings('.error-form').text(val[0]);
-                })
-            }
-        });
-    });
-    // end team
-    $('#something').on('click', function(e){
-        e.preventDefault()
-        $.ajax({
-
-            header:{
-                'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
-            },
-            url: 'add_somethingelse',
-            data: new FormData($("#form3")[0]),
-            contentType: false,
-            processData: false,
-            method: 'post',
-            success: function(data) {
-                toastr.success(data.success)
-                $('#form3')[0].reset();
-            },
-            error: function(error) {
-                console.log(error);
-                var errors = error.responseJSON;
-                $.each(errors.errors, function(i, val) {
-                    $("#form3 input[name=" + i + "]").siblings('.error-form').text(val[0]);
-                    $("#form3 textarea").siblings('.error-form').text(val[0]);
-                  
-                })
-            }
-        });
-    });
-    // end something
-    //button mobile
-    $('#mobile-hius').on('click', function(e){
-        console.log("clicked");
-        e.preventDefault()
-        $.ajax({
-            // header:{
-            //     'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
-            // },
-            url: 'add_hire',
-            data: new FormData($("#form1 form")[0]),
-            contentType: false,
-            processData: false,
-            method: 'post',
-            success: function(data) {
-                toastr.success(data.success)
-                $('#form1 form')[0].reset();
-            },
-            error: function(error) {
-                console.log(error);
-                var errors = error.responseJSON;
-                $.each(errors.errors, function(i, val) {
-                    $("#form1 input[name=" + i + "]").siblings('.error-form').text(val[0]);
-                  
-                })
-            }
-        });
-    });
-    $('#mobile-something').on('click', function(e){
-        e.preventDefault()
-        $.ajax({
-
-            header:{
-                'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
-            },
-            url: 'add_somethingelse',
-            data: new FormData($("#form3")[0]),
-            contentType: false,
-            processData: false,
-            method: 'post',
-            success: function(data) {
-                toastr.success(data.success)
-                $('#form3')[0].reset();
-            },
-            error: function(error) {
-                console.log(error);
-                var errors = error.responseJSON;
-                $.each(errors.errors, function(i, val) {
-                    $("#form3 input[name=" + i + "]").siblings('.error-form').text(val[0]);
-                    $("#form3 textarea").siblings('.error-form').text(val[0]);
-                  
-                })
-            }
-        });
-    });
     $('.three-owl').owlCarousel({
         loop: true,
         margin: 10,
@@ -224,21 +84,6 @@ $(document).ready(function () {
         }
         
     })
-    // var owl = $('#owl-client');
-    // owl.owlCarousel();
-    // // Go to the next item
-    // $('.customNextBtn').click(function() {
-    //     owl.trigger('next.owl.carousel');
-    //     console.log("next");
-    // })
-    // // Go to the previous item
-    // $('.customPrevBtn').click(function() {
-    //     // With optional speed parameter
-    //     // Parameters has to be in square bracket '[]'
-    //     owl.trigger('prev.owl.carousel', [300]);
-    //     console.log("preview");
-    // })
-
     //stop next slide
     $('.carousel').carousel('pause');
 
@@ -342,67 +187,42 @@ $(window).scroll(function() {
         $('.menu-button').click(function () {
              $('.left-menu .search input').toggleClass('bg-white text-dark');
             $('.left-menu .lang a').removeClass('text-dark').toggleClass('text-white');
-            // $('.left-menu .menu-button span').removeClass('bg-dark').toggleClass('bg-white');
+          
         });
-      
-
-        // $('.lang a,span').addClass('text-dark')
-        // $('.menu-button span').addClass('bg-dark')
-        // $('.left-menu form input').addClass('bg-dark text-white')
         $('.logo h3').addClass('text-dark')    
         lg1.show()
         lg2.hide()
     }else if(scroll >= clients && scroll < what){
-        // // remove dark
-        // $('.lang a,span').removeClass('text-dark')
-        // $('.menu-button span').removeClass('bg-dark')
-        // $('.left-menu form input').removeClass('bg-dark text-white')
         $('.logo h3').removeClass('text-dark')    
         lg1.hide()
         lg2.show()
     }
     else if(scroll >= what && scroll < human){
-        // dark
-        // $('.lang a,span').addClass('text-dark')
-        // $('.menu-button span').addClass('bg-dark')
-        // $('.left-menu form input').addClass('bg-dark text-white')
         $('.logo h3').addClass('text-dark')    
         lg1.show();
         lg2.hide();
     }else if(scroll >= human && scroll < article){
-         // remove dark
-        //  $('.lang a,span').removeClass('text-dark')
-        //  $('.menu-button span').removeClass('bg-dark')
-        //  $('.left-menu form input').removeClass('bg-dark text-white')
          $('.logo h3').removeClass('text-dark')  
         lg1.hide();
         lg2.show();
     }
     else if(scroll >= article && scroll < about){
-          // dark
-        //   $('.lang a,span').addClass('text-dark')
-        //   $('.menu-button span').addClass('bg-dark')
-        //   $('.left-menu form input').addClass('bg-dark text-white')
+     
           $('.logo h3').addClass('text-dark')    
         lg1.show();
         lg2.hide();
     }
     else if(scroll >= about && scroll <footer){
-          // remove dark
-        //   $('.lang a,span').removeClass('text-dark')
-        //   $('.menu-button span').removeClass('bg-dark')
-        //   $('.left-menu form input').removeClass('bg-dark text-white')
+      
           $('.logo h3').removeClass('text-dark')  
         lg1.hide();
         lg2.show();
     }else{
-         // dark
-        //  $('.lang a,span').addClass('text-dark')
-        //  $('.menu-button span').addClass('bg-dark')
-        //  $('.left-menu form input').addClass('bg-dark text-white')
+       
          $('.logo h3').addClass('text-dark')    
         lg1.show();
         lg2.hide();
     }
    
  });
+ 

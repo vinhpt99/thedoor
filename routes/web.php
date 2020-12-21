@@ -110,6 +110,7 @@ Route::group(['prefix' => 'admin', 'middleware'=>'authLogin'], function () {
    
     //liên hệ
     Route::get('/hire_page',[HirePageController::class, 'getHirePage']);
+    Route::post('/hire_page/create',[HirePageController::class, 'postHirePage'])->name('postHirePage');
     //cộng sự
     Route::get('/candidate',[CandidateController::class, 'getCandidate']);
     //phản hồi

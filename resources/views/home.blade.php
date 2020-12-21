@@ -264,9 +264,9 @@
                 <div class="item">
                   <a href="#" class="div-brand">
                     <div class="img-brand">
-                      <img src="" class="img-fluid" alt="vvvv">
+                      <img src="{{asset('upload/'.$c->image)}}" class="img-fluid" alt="">
                     </div>
-                    <p class="title-brand text-center">vvvvvvvvvvv</p>
+                    <p class="title-brand text-center">{{$c->customer_name}}</p>
                   </a>
                 </div>
                 @endforeach
@@ -332,9 +332,10 @@
           <div class="col-lg-3">
             <div class="what-left">
               <h3>WHAT ARE WHERE DOING?</h3>
-              <p class="d-none d-sm-block">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum, rerum numquam
-                quas sint quisquam nihil
-                vero omnis facilis repellat nobis,.</p>
+              <p class="d-none d-sm-block"> 
+                Ngay từ những ngày đầu thành lập nhóm phát triển đã có những định hướng chiến lược, mục tiêu rõ ràng và quyết tâm nổ lực bền bỉ để đưa Dova Việt Nam thành một công ty lớn mạnh trong tương lai.
+                TheDoor là nhà cung cấp dịch vụ CNTT và Giải pháp Digital Marketing hàng đầu Việt Nam. Dova Việt Nam mang đến khách hàng các dịch vụ phát triển website, marketing online, Công nghệ hiện đại nhằm nâng cao năng lực cạnh tranh, khẳng định vị thế trên thị trường.
+              </p>
             </div>
           </div>
           {{-- end col 4 --}}
@@ -342,20 +343,24 @@
             <div class="what-right">
               <div class="three-owl owl-carousel owl-theme">
                 {{-- item --}}
+              @foreach ($products as $key => $product)
                 <a href="#" class="item">
                   <div class="brand-box">
-                    <img src="{{asset('/img/product/1.png')}}" alt="" class="img-fluid">
+                    <img src="{{url('upload/'.$product->image)}}" alt="" class="img-fluid">
                     <div class="info-box text-center">
                       <div class="text-brand">
                         <div class="child-brand">
-                          <p class="offset">1</p>
-                          <p class="title-brand">BRAND-DESIGIN</p>
+                          <p class="offset">{{$key + 1}}</p>
+                          <p class="title-brand">{{$product->name}}</p>
                         </div>
                         <div class="bg-brand"></div>
                       </div>
                     </div>
                   </div>
                 </a>
+              @endforeach
+           
+               
                 {{-- item --}}
               </div>
            
@@ -431,9 +436,9 @@
         <div class="two-carousel owl-carousel">
           @if($staffs)
           @foreach ($staffs as $s)
-          <div class="item p3-img thedoor_staff"><a href="#"><img src="img/p3-o1.png" alt="" id="p3-img-size" /></a>
+          <div class="item p3-img thedoor_staff"><a href="#"><img src="{{asset('upload/'.$s->photo)}}" alt="" id="p3-img-size" /></a>
             <div class="staff_name__display">
-              <h3 class="staff_name">Nguyễn Văn A</h3>
+              <h3 class="staff_name">{{$s->staff_name}}</h3>
             </div>
           </div>
 
@@ -489,7 +494,7 @@
       <img src="{{asset('img/mobile/page-6.png')}}" class="d-block d-sm-none" alt="">
 
       <section class="main-article container">
-        <h3 class="article-title text-center display-4">ARTICLE</h3>
+        <h3 class="article-title text-center display-4">BÀI VIẾT</h3>
         <p class="des-article text-center">
           — here are some recent articles —
           <br>
@@ -508,7 +513,7 @@
               <div class="col-lg-12">
                 <div class="one-article">
                   <a href="/post/{{$blog->slug}}" class="thumb-article">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-3bwO1vgsipxSFOSAHr7r5ux1p_3lfXlDlg&usqp=CAU" alt="">
+                    <img src="{{asset('upload/'.$blog->thumbnail)}}" alt="">
                   </a>
                   <a href="/post/{{$blog->slug}}">
                     <h3 class="title-post">{{$blog->title}}</h3>
@@ -524,9 +529,6 @@
             @endforeach
             @endif
           </div>
-
-
-
         </div>
 
         <div class="navi-article text-right d-block d-sm-none pt-2">
@@ -599,7 +601,7 @@
               </div>
               <!-- Col 6 -->
               <div class="col-lg-6">
-                <div class="selection">
+               <div class="selection">
                   <ul id="tabs-nav">
                     <li><a href="#tab2" class="atab">Hire us</a></li>
                     <li><a href="#tab3" class="atab">Be part of our team</a></li>
@@ -625,18 +627,18 @@
 
           <!-- title -->
           <div id="form1">
-            <form method="post" action="add_hiree" id="form2">
-              {{csrf_field()}}
+            <form method="post" id="addHirePage">
+              @csrf
               <div class="container">
                 <div class="row">
-                  <div class="d-none d-sm-none d-lg-block col-lg-6">
-                    <div class="about-left text-center text-white p1">
-                      <div class="col-lg-8 offset-lg-2">
-                        <h3 class="text-center pb-3">Hire us</h3>
-                        <button type="submit" class="btn btn-outline-light btn-send" id="hius"><i class="fa fa-paper-plane pr-1" aria-hidden="true"></i>Send Us</button>
-                      </div>
+                    <div class="d-none d-sm-none d-lg-block col-lg-6">
+                        <div class="about-left text-center text-white p1">
+                            <div class="col-lg-8 offset-lg-2">
+                              <h3 class="text-center pb-3">Hire us</h3>
+                              <button onclick="addHirePage()" type="" class="btn btn-outline-light btn-send" id="hius"><i class="fa fa-paper-plane pr-1" aria-hidden="true"></i>Send Us</button>
+                            </div>
+                        </div>
                     </div>
-                  </div>
                   <div class="col-lg-6 d-flex flex-column">
                     <ul id="tabs-nav" class="arrow p-0">
                       <li class="arrow-1">
@@ -645,39 +647,37 @@
                         </a>
                       </li>
                     </ul>
+                  
                     <div class="about-right">
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">WHAT'S YOUR NAME</label>
-                        <input type="text" name="partner_name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                        <span class="error-form"></span>
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">DO YOU HAVE E-MAIL ?</label>
-                        <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                        <span class="error-form"></span>
-                      </div>
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">WHAT'S YOUR PHONE NUMBER?</label>
-                        <input type="text" name="phone" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                        <span class="error-form"></span>
-                      </div>
+                          <div class="form-group">
+                                <label for="exampleInputEmail1">WHAT'S YOUR NAME</label>
+                                <input type="text" name="partner_name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                <span class="error-form"></span>
+                          </div>
+                          <div class="form-group">
+                                <label for="exampleInputEmail1">DO YOU HAVE E-MAIL ?</label>
+                                <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                <span class="error-form"></span>
+                          </div>
+                          <div class="form-group">
+                                <label for="exampleInputEmail1">WHAT'S YOUR PHONE NUMBER?</label>
+                                <input type="text" name="phone" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                <span class="error-form"></span>
+                          </div>
                       <div class="form-group">
                         <label for="exampleInputEmail1">HOW CAN WE HELP YOU</label>
-                        <div class="list-option">
-                          <div class="row">
-                            @foreach($serv as $s)
-                            <div class="col-lg-6">
-                              <label class="form-check-label">
-                                <input type="radio" class="form-check-input" name="service_id" value="{{$s->id}}"><span>{{$s->service_name}}</span>
-                                <span class="error-form"></span>
-                              </label>
-
+                            <div class="list-option">
+                                <div class="row">
+                                    @foreach($serv as $s)
+                                        <div class="col-lg-6">
+                                          <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" name="service_id" value="{{$s->id}}"><span>{{$s->service_name}}</span>
+                                            <span class="error-form"></span>
+                                          </label>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
-                            @endforeach
-                          </div>
-                          <!-- End row -->
-                        </div>
-                        <!-- End list option -->
                         <div class="row">
                           <div class="col-lg-4">
                             <h4 class="pt-2">WHAT'S YOUR BUDGET?</h4>
@@ -692,7 +692,7 @@
 
                       </div>
                       <div class="form-group text-center d-block d-sm-none">
-                        <button type="submit" class="btn btn-outline-light btn-send btn-sm" id="mobile-hius"><i class="fa fa-paper-plane pr-1" aria-hidden="true"></i>Send Us</button>
+                        <button  class="btn btn-outline-light btn-send btn-sm" id="mobile-hius"><i class="fa fa-paper-plane pr-1" aria-hidden="true"></i>Send Us</button>
                       </div>
 
                     </div>
@@ -700,13 +700,9 @@
                   </div>
 
                 </div>
-
               </div>
-
             </form>
-
           </div>
-
         </div>
         <!-- Section three -->
         <div class="section-three tab-content" id="tab3">
@@ -718,8 +714,7 @@
                 <div class="col-12 col-sm-6 d-none d-sm-block">
                   <div class="about-left text-center text-white p1">
                     <div class="col-lg-8 offset-lg-2">
-                      <h3 class="text-center pb-3">Be part of
-                        our team</h3>
+                      <h3 class="text-center pb-3">Be part of our team</h3>
                       <button type="submit" id="team" class="btn btn-outline-light btn-send"><i class="fa fa-paper-plane pr-1" aria-hidden="true"></i>Send Us</button>
                     </div>
 
@@ -987,10 +982,29 @@
   $(document).ready(function() {
     $('video').prop('muted', true).play()
   });
-</script>
-<script>
-
+  function addHirePage()
+                 {
+                  event.preventDefault();
+                      $.ajax({
+                          url: "{{route('postHirePage')}}",
+                          method: 'post',
+                          data: $('#addHirePage').serialize(),
+                          success: function(data) {
+                              console.log(data);
+                              toastr.success('Gửi yêu cầu thành công!')            
+                          
+                          },
+                          error: function(error) {
+                              var errors = error.responseJSON;
+                            if(errors.errors.email[0])
+                              toastr.error(errors.errors.email[0]);
+                            if(errors.errors.partner_name[0])
+                              toastr.error(errors.errors.partner_name[0]);
+                            if(errors.errors.phone[0])
+                              toastr.error(errors.errors.phone[0]);      
+                          }
+                      });
+                 }
 </script>
 </body>
-
 </html>

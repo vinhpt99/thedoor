@@ -39,10 +39,11 @@
                             <td>{{$h->partner_name}}</td>
                             <td>{{$h->email}}</td>
                             <td>{{$h->phone}}</td>
-                            
-                            <td></td>
-                            <td>{{number_format($h->budget)}} VNĐ</td>
-                            <td>{{$h->created_at->format('d/m/yy')}}</td>
+                            <td>{{$h->service_name}}</td>
+                            <td>{{number_format($h->budget)}}.000.000 VNĐ</td>
+                            <td>
+                                {{date('d/m/yy', strtotime($h->created_at))}}
+                            </td>
                             @method('delete')
                                     @csrf
                         </tr>
@@ -61,4 +62,4 @@
     </div>
                         
                    
-@stop
+@endsection
