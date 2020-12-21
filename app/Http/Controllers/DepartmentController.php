@@ -102,4 +102,13 @@ class DepartmentController extends Controller
         return redirect('/admin/dept')->with('success','Thêm thành công !');
        
     }
+
+    public function deleteDeptMultiple(){
+        $checkboxArr = $_GET['checkboxArr'];
+        foreach ($checkboxArr as $value){
+            $dept = Dept::find($value);
+            $dept->delete_status = 0;
+            $dept->save();
+        }
+    }
 }

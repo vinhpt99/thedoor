@@ -19,4 +19,13 @@ class HirePageController extends Controller
         ->paginate(15);
         return view('admin.hire_page.list', compact('hire_page'));
     }
+
+    public function deleteHirepageMultiple(){
+        $checkboxArr = $_GET['checkboxArr'];
+        foreach ($checkboxArr as $value){
+            $hirePage = HirePage::find($value);
+            $hirePage->delete_status = 0;
+            $hirePage->save();
+        }
+    }
 }

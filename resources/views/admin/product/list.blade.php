@@ -4,12 +4,12 @@
 @section('content')
     <div class="row">
         <div class="col-lg-12">
-            <form method="post">
+            <form method="post" id="show-list-products">
                 @method('delete')
                 @csrf
                 <div class="show-delete pb-2">
-                    <button class="btn btn-danger btn-sm" formaction="{{url('/admin/pr/delete')}}"><i
-                            class="fa fa-trash mr-1"></i>Xóa mục đã chọn
+                    <button class="btn btn-danger btn-sm" onclick="deleteProductMultiple()"><i
+                                class="fa fa-trash mr-1"></i>Xóa mục đã chọn
                     </button>
                 </div>
                 <table class="table">
@@ -30,23 +30,24 @@
                     <tbody>
                     <?php $i = 1; ?>
                     @foreach($product as $key => $p)
-                            <tr>
-                                <td>
-                                    <input type="checkbox" class="sub_chk" name="id[]" value="{{$p->id}}">
-                                </td>
-                                <td scope="row">{{$key + 1}}</td>
-                                <td><a href="/admin/view-product/{{$p->id}}">{{$p->name}}</a></td>
-                                <td>
-                                    {{$p->customer_name}}
-                                </td>
-                                <td>{{$p->service_name}}</td>
+                        <tr>
+                            <td>
+                                <input type="checkbox" class="sub_chk" name="id[]" value="{{$p->id}}">
+                            </td>
+                            <td scope="row">{{$key + 1}}</td>
+                            <td><a href="/admin/view-product/{{$p->id}}">{{$p->name}}</a></td>
+                            <td>
+                                {{$p->customer_name}}
+                            </td>
+                            <td>{{$p->service_name}}</td>
 
-                                <td>{{$p->begin_day}}</td>
-                                <td>{{$p->finish_date}}</td>
-                                <td>{{$p->members}}</td>
-                                <td><a href="{{url('admin/product/edit/'.$p->id)}}" class="ml-2"><i class="fas fa-pencil-alt"></i></a>
-                                </td>
-                            </tr>
+                            <td>{{$p->begin_day}}</td>
+                            <td>{{$p->finish_date}}</td>
+                            <td>{{$p->members}}</td>
+                            <td><a href="{{url('admin/product/edit/'.$p->id)}}" class="ml-2"><i
+                                            class="fas fa-pencil-alt"></i></a>
+                            </td>
+                        </tr>
                     @endforeach
                     <tr class="col-lg-12 text-center">
                         {{$product->links()}}
@@ -56,4 +57,36 @@
             </form>
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        function deleteProductMultiple() {
+            if (confirm("Bạn chắc chắn muốn xóa các product đã chọn?")) {
+                var checkboxArrDeleteMul = [];
+                var listCheckbox = $('#show-list-products tbody input[type=checkbox]');
+                listCheckbox.each(function () {
+                    if ($(this).is(":checked")) {
+                        checkboxArrDeleteMul.push($(this).val());
+                    }
+                });
+                if (checkboxArrDeleteMul.length != 0) {
+                    $.ajax({
+                        type: 'GET',
+                        url: "{{url('admin/product/delete/multiple')}}",
+                        data: {checkboxArr: checkboxArrDeleteMul},
+                        success: function (data) {
+                            console.log(data);
+                            toastr.error('Bạn đã xóa!')
+                            window.location.reload().delay(500);
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                } else {
+                    toastr.error('Bạn chưa chọn mục nào');
+                }
+            }
+        }
+    </script>
 @endsection

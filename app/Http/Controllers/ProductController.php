@@ -96,4 +96,13 @@ class ProductController extends Controller
         $service = Service::select('id', 'service_name', 'logo', 'describe')->where('delete_status',1)->get();
         return view('admin.product.add', compact('service', 'customer'));
     }
+
+    public function deleteProductMultiple(){
+        $checkboxArr = $_GET['checkboxArr'];
+        foreach ($checkboxArr as $value){
+            $product = Product::find($value);
+            $product->delete_status = 0;
+            $product->save();
+        }
+    }
 }

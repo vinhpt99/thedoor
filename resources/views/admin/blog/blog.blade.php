@@ -13,11 +13,11 @@
         </form>
     </div>
     <div class="col-lg-12">
-        <form method="post">
+        <form method="post" id="show-list-blogs">
             @csrf
             <div class="show-delete pb-2">
                 <button onclick="lishBlog()" class="btn btn-primary btn-sm"><i class="fa fa-list"></i>Danh sách</button>
-                <button class="btn btn-danger btn-sm"><i class="fa fa-trash mr-1"></i>Xóa mục đã chọn</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteBlogMultiple()"><i class="fa fa-trash mr-1"></i>Xóa mục đã chọn</button>
             </div>
             <table class="table table-bordered">
                 <thead>
@@ -208,5 +208,35 @@
                }
           });
         }
+
+         function deleteBlogMultiple() {
+             if (confirm("Bạn chắc chắn muốn xóa các blog đã chọn?")) {
+                 var checkboxArrDeleteMul = [];
+                 var listCheckbox = $('#show-list-blogs tbody input[type=checkbox]');
+                 listCheckbox.each(function () {
+                     if ($(this).is(":checked")) {
+                         checkboxArrDeleteMul.push($(this).val());
+                     }
+                 });
+                 if (checkboxArrDeleteMul.length != 0) {
+                     $.ajax({
+                         type: 'GET',
+                         url: "{{url('admin/blog/delete/multiple')}}",
+                         data: {checkboxArr: checkboxArrDeleteMul},
+                         success: function (data) {
+                             console.log(data);
+                             toastr.error('Bạn đã xóa!')
+                             window.location.reload().delay(500);
+                         },
+                         error: function (error) {
+                             console.log(error);
+                         }
+                     });
+                 }
+                 else{
+                     toastr.error('Bạn chưa chọn mục nào');
+                 }
+             }
+         }
     </script>
 @endsection

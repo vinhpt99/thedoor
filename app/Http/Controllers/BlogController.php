@@ -141,4 +141,13 @@ class BlogController extends Controller
         return redirect('/admin/blog')->with('success', 'Thêm thành công !');
           
     }
+
+    public function deleteBlogMultiple(){
+        $checkboxArr = $_GET['checkboxArr'];
+        foreach ($checkboxArr as $value){
+            $blog = Blog::find($value);
+            $blog->delete_status = 0;
+            $blog->save();
+        }
+    }
 }

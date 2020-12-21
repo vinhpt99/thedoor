@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Layout;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use File;
 class LayoutController extends Controller
@@ -147,5 +148,14 @@ class LayoutController extends Controller
       $layout->delete_status = 0;
       $layout->save();
 
+    }
+
+    public function deleteLayoutMultiple(){
+        $checkboxArr = $_GET['checkboxArr'];
+        foreach ($checkboxArr as $value){
+            $layout = Layout::find($value);
+            $layout->delete_status = 0;
+            $layout->save();
+        }
     }
 }
