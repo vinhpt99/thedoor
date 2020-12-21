@@ -4,15 +4,15 @@
 @section('content')
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
-            <form action="/admin/service" method="POST" enctype="multipart/form-data">
+            <form action="{{url('admin/service/create')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label for="exampleInputEmail1">Tên dịch vụ : </label>
-                    <input type="text" name="name" class="form-control" placeholder="Tên dịch vụ">
+                    <input type="text" name="service_name" class="form-control" placeholder="Tên dịch vụ">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Mô tả :  </label>
-                    <textarea name="describe" placeholder="Mô tả dịch vụ" class="form-control" id="" rows="10"></textarea>
+                    <textarea id="describe" name="describe" placeholder="Mô tả dịch vụ" class="form-control" id="" rows="10"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Ảnh : </label>
@@ -24,5 +24,10 @@
             </form>
         </div>
     </div>
-@stop
+@endsection
+@section('script')
+<script>
+    CKEDITOR.replace('describe');
+</script>
+@endsection
 

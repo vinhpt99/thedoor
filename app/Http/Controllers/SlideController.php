@@ -6,10 +6,45 @@ use Illuminate\Http\Request;
 use App\Models\Slide;
 use File;
 use Illuminate\Validation\Rule;
+use DB;
 
 class SlideController extends Controller
 {
-    //
+   public function searchSlide(Request $request)
+   {   
+       $data = [];
+       $query = $request->get('search');
+       $slides = DB::table('slides')->where('delete_status', 1)
+       ->where('title', 'like', '%' . $query . '%')->get();
+       if(!empty($slides))
+       {
+       $output = '';
+       foreach($slides as $key => $slide)
+       {
+        $output .= '<tr>
+                        <th scope="row">'.($key+1).'</th>
+                        <td>'.$slide->title.'</td>
+                        <td>
+                            <img width="150" src="' . url('') . '/upload/' .  $slide->image . '" alt="">
+                        </td>
+                            <td><a href="'.$slide->link.'" target="_blank">'.$slide->link.'</a></td>
+                        <td>';
+                            if($slide->active_status == 1)
+                               $output .='Hiển thị';
+                            else
+                               $output .='Ẩn đi';
+                              $output .='</td>
+                        <td><a onclick="editSlide('.$slide->id.')" href="#" class="ml-2"><i class="fas fa-pencil-alt"></i></a></td>
+                        <td>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="deleteSlide('.$slide->id.')"><i class="fa fa-times"></i></button>       
+                        </td>
+                   </tr>';
+       }
+
+       $data['output'] = $output;
+    }
+       return response()->json(['error' => false, 'data' => $data], 200);
+   }
     public function editSlide(Request $request)
     {  
        $id = $request->id;

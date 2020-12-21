@@ -25,7 +25,6 @@
                     <tr>
                         <th scope="col"><input type="checkbox" id="checkAll">
                         </th>
-                        <th scope="col">#</th>
                         <th scope="col">Mô tả</th>
                         <th scope="col">Sản phẩm</th>
                         <th scope="col">Ngày tạo</th>
@@ -34,37 +33,22 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <?php $i = 1; ?>
-                    @if($details)
-                        @foreach($details as $d)
+                        @foreach($details as $key => $d)
                             <tr>
                                 <td>
                                     <input type="checkbox" class="sub_chk" name="id[]" value="{{$d->id}}">
                                 </td>
-                                <th scope="row">{{$i}}</th>
+                                <th scope="row">{{$key + 1}}</th>
                                 <td>{{$d->describe}}</td>
                                 <td>
-                                    @foreach($d->product()->where('delete_status',1)->get() as $dr)
-                                      {{$dr->name}}
-                                    @endforeach
+                                    {{date('d-m-yy', strtotime($d->created_at))}}
                                 </td>
-                                <td>{{$d->created_at->format('d-m-yy')}}</td>
-                                <td><a href="/admin/detail/{{$d->id}}/edit" class="ml-2"><i class="fas fa-pencil-alt"></i></a>
-                                </td>
+                                <td><a href="{{url('admin/detail/edit/'.$d->id)}}" class="ml-2"><i class="fas fa-pencil-alt"></i></a></td>
                                 <td>
-                                    <form method="post">
-                                        <button type="submit" class="btn btn-danger btn-sm"
-                                                formaction="{{ url('/admin/detail',['id'=>$d->id]) }}"
-                                                onclick="return confirm('Xoá chi tiết bài viết ? ');"><i
-                                                class="fa fa-times"></i></button>
-                                        @method('delete')
-                                        @csrf
-                                    </form>
-                                </td>
+                                    <button onclick = "deleteDetail({{$d->id}})" type="submit" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button>
+                                </td>        
                             </tr>
-                            <?php $i++; ?>
                         @endforeach
-                    @endif
                     <tr class="col-lg-12 text-center">
                         {{$details->links()}}
                     </tr>
@@ -74,5 +58,29 @@
         </div>
 
     </div>
-@stop
+@endsection
+@section('script')
+    <script>
+       function deleteDetail(id)
+       {
+           event.preventDefault();
+           confirm("Bạn chắc muốn xóa slide này ?");      
+            $.ajax({
+                type: 'GET',
+                url: "{{route('deleteDetail')}}",
+                data:{id:id},
+                success: function(data) {
+                    console.log(data);
+                    toastr.error('Bạn đã xóa!')
+                      window.location.reload().delay(500);
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+
+
+       }       
+    </script>
+@endsection
 

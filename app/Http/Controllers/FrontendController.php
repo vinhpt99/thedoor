@@ -10,6 +10,7 @@ use App\Models\Staff;
 use App\Models\Customer;
 use App\Models\Blog;
 use App\Models\Layout;
+use App\Models\Product;
 use DB;
 
 class FrontendController extends Controller
@@ -24,11 +25,12 @@ class FrontendController extends Controller
         $staffs = Staff::select('slug', 'photo')->where('delete_status',1)->orderBy('created_at', 'desc')->get();
         $customers = Customer::select('id', 'customer_name', 'image')->where('delete_status', 1)->get();
         $layouts = Layout::select('link', 'offset')->where('delete_status',1)->get();
+        $products = Product::where('delete_status',1)->get();
         $blogs =  DB::table('blogs')
         ->where('blogs.delete_status',1)
         ->where('blogs.status',1)
         ->join('users', 'users.id', '=', 'blogs.author_id')
         ->select('users.name', 'blogs.*')->get();
-        return view('home',compact('slide','count','serv','sldept', 'customers', 'staffs', 'blogs', 'layouts'));  
+        return view('home',compact('products','slide','count','serv','sldept', 'customers', 'staffs', 'blogs', 'layouts'));  
     }
 }

@@ -22,9 +22,7 @@
                     <label for="exampleFormControlSelect1">Bộ phận : </label>
                     <select class="form-control" name="id_dept" id="exampleFormControlSelect1">
                         @foreach($dept as $d)
-                            @if($d->delete_status == 1)
                                 <option value="{{$d->id}}">{{$d->dept_name}}</option>
-                            @endif
                         @endforeach
                     </select>
                 </div>

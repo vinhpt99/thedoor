@@ -23,20 +23,18 @@
                         <th scope="col">Email</th>
                         <th scope="col">Tên dự án</th>
                         <th scope="col">Mô tả dự án</th>
-                        <th scope="col">id bộ phận</th>
-                        <th scope="col">profile</th>
+                        <th scope="col">Tên bộ phận</th>
+                        <th scope="col">Profile</th>
                         <th scope="col">Thời gian tạo</th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php $i = 1; ?>
-                @foreach($candidate as $c)
-                    @if($c->delete_status==1)
+                @foreach($candidate as $key => $c)
                         <tr>
                             <td>
                                 <input type="checkbox" class="sub_chk" name="id[]" value="{{$c->id}}">
                             </td>
-                            <th scope="row">{{$i}}</th>
+                            <th scope="row">{{$key + 1}}</th>
                             <td>{{$c->name}}</td>
                             <td>{{$c->email}}</td>
                             <td>{{$c->project_name}}</td>
@@ -44,12 +42,7 @@
                             <td>{{$c->dept_id}}</td>
                             <td>{{$c->profile}}</td>
                             <td>{{$c->created_at}}</td>
-                            @method('delete')
-                                    @csrf
                         </tr>
-                        
-                        <?php $i++; ?>
-                    @endif
                 @endforeach
                 <tr class="col-lg-12 text-center">
                     {{$candidate->links()}} 

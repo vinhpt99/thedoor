@@ -9,7 +9,5 @@ class Staff extends Model
 {
     use HasFactory;
     protected $table = 'staff';
-    // public function dept(){
-    //     return $this->belongsTo('App\Models\Dept', 'id_dept', 'id');
-    // }
+  
 }

@@ -8,7 +8,7 @@
                 @csrf
                 <div class="form-group">
                     <label for="exampleInputEmail1">Tên phòng ban : </label>
-                    <input type="text" name="name" class="form-control" placeholder="Nhập tên phòng ban">
+                    <input type="text" name="dept_name" class="form-control" placeholder="Nhập tên phòng ban">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Số điện thoại : </label>

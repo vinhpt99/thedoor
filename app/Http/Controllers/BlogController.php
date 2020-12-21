@@ -36,10 +36,8 @@ class BlogController extends Controller
       
         $request->validate(
             [    
-                'title' => ['required', 'string',Rule::unique('blogs')->where(function ($query){
-                    return $query->where('delete_status', 1);
-                })],
-                'thumbnail' => 'mimes:jpg,jpeg,png|max:2048',
+                'title' => 'required', 
+                'image' => 'mimes:jpg,jpeg,png|max:2048',
                 'describle' => 'required',
                 'status' => 'required',
                 'editorBlog' => 'required',
@@ -51,7 +49,7 @@ class BlogController extends Controller
                 //image
                 $file=$request->file('image');
 				$img=rand(0,100000)."_".$file->getClientOriginalname();
-				while ( file_exists("uplaod/".$img)){
+				while ( file_exists("upload/".$img)){
 					$img=rand(0,100000)."_".$file->getClientOriginalname();
 				}
 				File::delete(public_path()."/upload/".$blog->thumbnail);
@@ -103,27 +101,37 @@ class BlogController extends Controller
         return view('admin.blog.create');
     }
     public function postAddBlog(Request $request)
-    {   
-       
+    { 
         $validatedData = $request->validate([
-            'title' => 'required',
+            'title' => ['required',Rule::unique('slides')->where(function ($query){
+                return $query->where('delete_status', 1);
+            })],
+            'img' => 'required',
             'describe' => 'required',
             'content' => 'required',
-        ],[
+        ],[  
+            'img.required'=>'Bạn chưa tải lên ảnh',
             'title.required'=>'Trường tiêu đề không được để trống',
+            'title.unique'=>'Tiêu đề bài viết đã tồn tại',
             'describe.required'=>'Trường mô tả không được để trống',
             'content.required'=>'Trường nội dung không được để trống',
         ]);
-        if ($request->hasFile('img')) {
-            $image = $request->img;
-            $image->move(base_path('/public/upload'), $image->getClientOriginalname());
-            $img = $image->getClientOriginalname();
-          } 
+      
         $blog = new Blog;
         $blog->title = $request->title;
         $blog->slug =Str::slug($request->title);
         $blog->describe = $request->describe;
+        if ($request->hasFile('img')) 
+        {
+          $file=$request->file('img');
+          $img=rand(0,100000)."_".$file->getClientOriginalname();
+            while ( file_exists("uplaod/".$img)){
+              $img=rand(0,100000)."_".$file->getClientOriginalname();
+            }           
         $blog->thumbnail = $img;
+        $file->move('upload/',$img);       
+          }
+      
         $blog->content = $request->content;
         $blog->author_id = $request->author;
         if(Auth::user()->type !==1){

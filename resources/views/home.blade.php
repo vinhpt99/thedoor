@@ -78,7 +78,7 @@
           @foreach($slide as $k)
           @if($index==1)
           <div class="carousel-item active">
-            <img class="d-block w-100" src="img/home-test.png" alt="{{$k->title}}">
+            <img class="d-block w-100" src="{{asset('upload/'.$k->link)}}" alt="{{$k->title}}">
             <div class="carousel-caption">
               <div class="row">
                 <div class="col-12 col-md-7">
@@ -181,7 +181,7 @@
       @else
       @foreach ($layouts as $l)
       @if($l->offset ==2)
-      <img class="about-bg d-none d-sm-block" src="{{asset('/storage/img/'.$l->link)}}" alt="">
+      <img class="about-bg d-none d-sm-block" src="{{asset('upload/'.$l->link)}}" alt="">
       @endif
       @endforeach
       @endif
@@ -227,20 +227,20 @@
     <div id="clients">
       <?php $clients = 0; ?>
       @if ($layouts)
-      @foreach ($layouts as $l)
-      @if($l->offset == 3)
-      <img class="about-bg d-none d-sm-block" src="{{asset('/storage/img/'.$l->link)}}" alt="">
-      <?php $clients++; ?>
-      @endif
-      @endforeach
+          @foreach ($layouts as $l)
+          @if($l->offset == 3)
+          <img class="about-bg d-none d-sm-block" src="{{asset('upload/'.$l->link)}}" alt="">
+          <?php $clients++; ?>
+          @endif
+          @endforeach
       @endif
       @if($clients ==0)
-      <img src="{{asset('img/layout/page-3.png')}}" alt="" class="about-bg d-none d-sm-block">
+         <img src="{{asset('img/layout/page-3.png')}}" alt="" class="about-bg d-none d-sm-block">
       @else
       @foreach ($layouts as $l)
-      @if($l->offset ==3)
-      <img class="about-bg d-none d-sm-block" src="{{asset('/storage/img/'.$l->link)}}" alt="">
-      @endif
+          @if($l->offset ==3)
+          <img class="about-bg d-none d-sm-block" src="{{asset('upload/'.$l->link)}}" alt="">
+          @endif
       @endforeach
       @endif
       <img class="about-bg d-block d-sm-none" src="{{asset('/img/mobile/page-3.png')}}" alt="">
@@ -264,9 +264,9 @@
                 <div class="item">
                   <a href="#" class="div-brand">
                     <div class="img-brand">
-                      <img src="img/p3-o2.png" class="img-fluid" alt="">
+                      <img src="" class="img-fluid" alt="vvvv">
                     </div>
-                    <p class="title-brand text-center">{{$c->customer_name}}</p>
+                    <p class="title-brand text-center">vvvvvvvvvvv</p>
                   </a>
                 </div>
                 @endforeach
@@ -322,7 +322,7 @@
       @else
       @foreach ($layouts as $l)
       @if($l->offset ==4)
-      <img class="about-bg d-none d-sm-block" src="{{asset('/storage/img/'.$l->link)}}" alt="">
+      <img class="about-bg d-none d-sm-block" src="{{asset('upload/'.$l->link)}}" alt="">
       @endif
       @endforeach
       @endif
@@ -341,6 +341,7 @@
           <div class="col-lg-9">
             <div class="what-right">
               <div class="three-owl owl-carousel owl-theme">
+                {{-- item --}}
                 <a href="#" class="item">
                   <div class="brand-box">
                     <img src="{{asset('/img/product/1.png')}}" alt="" class="img-fluid">
@@ -355,22 +356,9 @@
                     </div>
                   </div>
                 </a>
-                {{-- End item --}}
-                <a href="#" class="item">
-                  <div class="brand-box">
-                    <img src="{{asset('/img/product/2.png')}}" alt="" class="img-fluid">
-                    <div class="info-box text-center">
-                      <div class="text-brand">
-                        <div class="child-brand">
-                          <p class="offset">1</p>
-                          <p class="title-brand">BRAND-DESIGIN</p>
-                        </div>
-                        <div class="bg-brand"></div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
+                {{-- item --}}
               </div>
+           
               {{-- <div class="nav-what">
                   <div class="navi-btn mt-5">
                     <i class="fa fa-angle-left customNextBtnOne fa-2x pr-2" aria-hidden="true"></i>
@@ -382,8 +370,8 @@
           </div>
           {{-- end col 8 --}}
         </div>
-
       </div>
+      {{-- end content what --}}
       <div class="social_network">
         <ul class="d-flex pl-2 justify-content-start footer-social social_network__list social_network___page_light">
           <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
@@ -423,7 +411,7 @@
       @else
       @foreach ($layouts as $l)
       @if($l->offset ==5)
-      <img class="about-bg d-none d-sm-block" src="{{asset('/storage/img/'.$l->link)}}" alt="">
+      <img class="about-bg d-none d-sm-block" src="{{asset('upload/'.$l->link)}}" alt="">
       @endif
       @endforeach
       @endif
@@ -494,7 +482,7 @@
       @else
       @foreach ($layouts as $l)
       @if($l->offset ==6)
-      <img class="about-bg d-none d-sm-block" src="{{asset('/storage/img/'.$l->link)}}" alt="">
+      <img class="about-bg d-none d-sm-block" src="{{asset('upload/'.$l->link)}}" alt="">
       @endif
       @endforeach
       @endif
@@ -586,7 +574,7 @@
       @else
       @foreach ($layouts as $l)
       @if($l->offset ==7)
-      <img class="about-bg d-none d-sm-block" src="{{asset('/storage/img/'.$l->link)}}" alt="">
+      <img class="about-bg d-none d-sm-block" src="{{asset('upload/'.$l->link)}}" alt="">
       @endif
       @endforeach
       @endif
@@ -879,7 +867,7 @@
       @else
       @foreach ($layouts as $l)
       @if($l->offset ==8)
-      <img class="bg-article" src="{{asset('/storage/img/'.$l->link)}}" alt="">
+      <img class="bg-article" src="{{asset('upload/'.$l->link)}}" alt="">
       @endif
       @endforeach
       @endif

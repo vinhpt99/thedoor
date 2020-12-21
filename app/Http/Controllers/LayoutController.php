@@ -18,20 +18,24 @@ class LayoutController extends Controller
     public function postAddLayout(Request $request)
     {
         $validatedData = $request->validate([
-            'image' => 'required',
+            'image' => 'required|mimes:jpg,jpeg,png|max:2048',
         ],[
             'image.required'=>'Trường ảnh không được để trống',
+            'image.mimes'=>'ảnh tải lên không đúng định dạng',
+            'image.max'=>'Dung lượng ảnh quá lớn',
         ]);
-        if ($request->hasFile('image')) {
-            $image = $request->image;
-            $image->move(base_path('/public/upload'), $image->getClientOriginalname());
-            $img = $image->getClientOriginalname();
-          } else {
-            $img = '';
-          }
         $layout = new Layout;
-        $layout->offset = $request->offset;
+        if ($request->hasFile('image')) 
+        {
+          $file=$request->file('image');
+          $img=rand(0,100000)."_".$file->getClientOriginalname();
+            while ( file_exists("uplaod/".$img)){
+              $img=rand(0,100000)."_".$file->getClientOriginalname();
+            }           
         $layout->link = $img;
+        $file->move('upload/',$img);       
+          }
+        $layout->offset = $request->offset;
         $layout->save();
         return redirect('/admin/layout')->with('success', 'Thêm thành công !');
     }

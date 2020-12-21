@@ -29,28 +29,24 @@
                     </thead>
                     <tbody>
                     <?php $i = 1; ?>
-                    @foreach($product as $p)
-
-                        @if($p->delete_status==1)
+                    @foreach($product as $key => $p)
                             <tr>
                                 <td>
                                     <input type="checkbox" class="sub_chk" name="id[]" value="{{$p->id}}">
                                 </td>
-                                <td scope="row">{{$i}}</td>
-                                <td><a href="/admin/view-product/{{$p->id}}">{{$p->name}}<span> ({{$p->details()->where('delete_status', 1)->count()}})</span></a></td>
+                                <td scope="row">{{$key + 1}}</td>
+                                <td><a href="/admin/view-product/{{$p->id}}">{{$p->name}}</a></td>
                                 <td>
-                                    {{$p->customer->customer_name}}
+                                    {{$p->customer_name}}
                                 </td>
-                                <td>{{$p->service->service_name}}</td>
+                                <td>{{$p->service_name}}</td>
 
                                 <td>{{$p->begin_day}}</td>
                                 <td>{{$p->finish_date}}</td>
                                 <td>{{$p->members}}</td>
-                                <td><a href="/admin/product/{{$p->id}}/edit" class="ml-2"><i class="fas fa-pencil-alt"></i></a>
+                                <td><a href="{{url('admin/product/edit/'.$p->id)}}" class="ml-2"><i class="fas fa-pencil-alt"></i></a>
                                 </td>
                             </tr>
-                            <?php $i++; ?>
-                        @endif
                     @endforeach
                     <tr class="col-lg-12 text-center">
                         {{$product->links()}}
@@ -60,4 +56,4 @@
             </form>
         </div>
     </div>
-@stop
+@endsection

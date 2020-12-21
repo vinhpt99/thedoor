@@ -4,9 +4,8 @@
 @section('content')
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
-            <form action="/admin/customer/{{$customer->id}}" method="POST" enctype="multipart/form-data">
+            <form action="{{url('/admin/customer/edit/'.$customer->id)}}" method="POST" enctype="multipart/form-data">
                 @csrf
-                {{ method_field('PATCH') }}
                 <div class="form-group">
                     <label for="exampleInputEmail1">Tên khách hàng :  </label>
                     <input type="text" name="name" value="{{$customer->customer_name}}" class="form-control" placeholder="Tên nhân viên">
@@ -25,7 +24,7 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <img width="300" src="{{asset('storage/img/'.$customer->image)}}" alt="">
+                        <img width="300" src="{{asset('upload/'.$customer->image)}}" alt="">
                     </div>
                     <div class="col">
                         <div class="form-group">

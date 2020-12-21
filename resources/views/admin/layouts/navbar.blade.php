@@ -15,9 +15,9 @@
                     @endif
                 </a>
                 <div class="dropdown-divider"></div>
-                    <a style="margin-left: 15px" href="{{url('logout')}}"><i class="fas fa-sign-out-alt pr-1"></i>Logout</a>
-                </div>
-        
+                    <a style="margin-left: 15px;display: block" href="{{url('logout')}}"><i class="fas fa-sign-out-alt pr-1"></i>Logout</a>
+                    <a style="margin-left: 15px;display: block" href="{{url('admin/user/edit/'.Auth::user()->id)}}"><i class="fas fa-user-edit"></i>Edit</a>
+                </div>     
             </div>
         </li>
     </ul>

@@ -40,7 +40,7 @@
                             <td>{{$h->email}}</td>
                             <td>{{$h->phone}}</td>
                             
-                            <td>{{$h->service->service_name}}</td>
+                            <td></td>
                             <td>{{number_format($h->budget)}} VNĐ</td>
                             <td>{{$h->created_at->format('d/m/yy')}}</td>
                             @method('delete')

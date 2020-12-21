@@ -24,22 +24,23 @@
                     <th scope="col"><input type="checkbox" id="checkAll">
                     </th>
                     <th scope="col">#</th>
-                    <th scope="col">Tên</th>
+                    <th scope="col">Tên nhân viên</th>
+                    <th scope="col">Username</th>
                     <th scope="col">Email</th>
                     <th scope="col">Vai trò</th>
+                    <th scope="col">Sửa</th>
                     <th scope="col">Xóa</th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php $i = 1; ?>
-                @if($users) 
-                @foreach($users as $u)
-                    @if($u->type ==1 || Auth::user()->type ==0)
-                        <tr disabled>
+                @if($users)
+                @foreach($users as $key => $u)
+                        <tr>
                             <th>
                                 <input type="checkbox" disabled class="sub_chk" name="id[]" value="{{$u->id}}">
                             </th>
-                            <th scope="row">{{$i}}</th>
+                            <th scope="row">{{$key + 1}}</th>
+                            <td>{{$u->staff_name}}</td>
                             <td>{{$u->name}}</td>
                             <td>{{$u->email}}</td>
                             <td>
@@ -49,51 +50,15 @@
                                     <span class="badge badge-success">Nhân viên</span>
                                 @endif
                                 
+                            </td>     
+                             <td>        
+                                <a href="{{url('admin/user/edit/'.$u->id)}}"   class="ml-2"><i class="fas fa-pencil-alt"></i></a></td>    
                             </td>
-                    
                             <td>
-                                <form method="post">
-                                    <button type="submit" disabled class="btn btn-danger btn-sm"
-                                            formaction="{{ url('/admin/user', ['id'=>$u->id]) }}"
-                                            onclick="return confirm('Xoá nhân viên ? ');"><i
-                                            class="fa fa-times"></i></button>
-                                    @method('delete')
-                                    @csrf
-                                </form>
+                                <button  class="btn btn-danger btn-sm" onclick="deleteUser({{$u->id}})"><i class="fa fa-times"></i></button>       
                             </td>
                         </tr>
-                    @elseif($u->type==0)
-                        <tr>
-                            <th>
-                                <input type="checkbox" class="sub_chk" name="id[]" value="{{$u->id}}">
-                            </th>
-                            <th scope="row">{{$i}}</th>
-                            <td>{{$u->name}}</td>
-                            <td>{{$u->email}}</td>
-                            <td>
-                                @if($u->type ==1)
-                                    <span class="badge badge-warning">Admin</span>
-                                @else 
-                                    <span class="badge badge-success">Nhân viên</span>
-                                @endif
-                                
-                            </td>
-                    
-                            <td>
-                                <form method="post">
-                                    <button type="submit" class="btn btn-danger btn-sm"
-                                            formaction="{{ url('/admin/user', ['id'=>$u->id]) }}"
-                                            onclick="return confirm('Xoá nhân viên ? ');"><i
-                                            class="fa fa-times"></i></button>
-                                    @method('delete')
-                                    @csrf
-                                </form>
-                            </td>
-                        </tr>
-                    @endif
-              
-                <?php $i++; ?>
-        @endforeach
+              @endforeach
                 @endif
                 <tr class="col-lg-12 text-center">
                     {{$users->links()}}
@@ -101,8 +66,29 @@
                 </tbody>
             </table>
         </form>
-        </div>
+        </div> 
 
     </div>
-@stop
+@endsection
+@section('script')
+<script>
+    function deleteUser(id)
+    {   event.preventDefault();
+        confirm("Bạn chắc muốn xóa user này ?");      
+          $.ajax({
+               type: 'GET',
+               url: "{{route('deleteUser')}}",
+               data:{id:id},
+               success: function(data) {
+                  console.log(data);
+                //   toastr.error('Bạn đã xóa!')
+                //   window.location.reload().delay(500);
+               },
+               error: function(error) {
+                   console.log(error);
+               }
+          });
+    }
+</script>
+@endsection
 

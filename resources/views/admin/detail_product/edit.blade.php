@@ -4,8 +4,7 @@
 @section('content')
     <div class="row">
         <div class="col-lg-12">
-            <form action="/admin/detail/{{$detail->id}}" method="POST" enctype="multipart/form-data">
-                {{ method_field('PATCH') }}
+            <form action="{{url('admin/detail/edit/'.$detail->id)}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label for="exampleInputEmail1">Mục sản phẩm : </label>
@@ -28,13 +27,7 @@
                 </div>
                 <div class="form-group">
                     <textarea name=text id="text" cols="30" rows="10">{{$detail->media}}</textarea>
-                    <script src={{ url('ckeditor/ckeditor.js') }}></script>
-                    <script>
-                        CKEDITOR.replace( 'text', {
-                            filebrowserBrowseUrl: '{{ route('ckfinder_browser') }}',
-                        } );
-                    </script>
-                    @include('ckfinder::setup')
+                   
                 </div>
                 <div class="form-group text-center">
                     <button type="submit" class="btn btn-primary"><i class="fas fa-sync pr-1"></i>Cập nhật</button>
@@ -42,5 +35,10 @@
             </form>
         </div>
     </div>
-@stop
+@endsection
+@section('script')
+    <script>
+          CKEDITOR.replace('text');
+    </script>
+@endsection
 

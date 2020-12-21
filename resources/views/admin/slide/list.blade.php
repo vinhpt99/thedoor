@@ -3,14 +3,11 @@
 @section('title', 'Danh sách')
 @section('content')
     <div class="row">
-        <div class="col-lg-6 offset-lg-3 mb-2">
-            <form method="post" action="/admin/slide/search" class="d-flex justify-content-start">
-                @csrf
-                <input class="form-control mr-sm-2" type="text" name="key" placeholder="Tìm kiếm" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+        <div style="display: flex" class="col-lg-6 offset-lg-3 mb-2">
+                <input id="searchSlide" class="form-control mr-sm-2" type="text" name="key" placeholder="Tìm kiếm" aria-label="Search">
+                <button onclick="searchSlide()" class="btn btn-outline-success my-2 my-sm-0" type="submit">
                     <i class="fa fa-search"></i>
                 </button>
-            </form>
         </div>
         <div class="col-lg-12">
             <table class="table">
@@ -25,31 +22,31 @@
                     <th scope="col">Xóa</th>
                 </tr>
                 </thead>
-                <tbody>
-                @foreach($slides as $key => $slide)
-                        <tr>
-                            <th scope="row">{{$key+1}}</th>
-                            <td>{{$slide->title}}</td>
-                            <td>
-                                <img width="150" src="{{asset('upload/'.$slide->image)}}" alt="">
-                            </td>
-                              <td><a href="{{$slide->link}}" target="_blank">{{$slide->link}}</a></td>
-                            <td>
-                                @if($slide->active_status == 1)
-                                    Hiển thị
-                                @else
-                                    Ẩn đi
-                                @endif
-                            </td>
-                            <td><a onclick="editSlide({{$slide->id}})" href="#" class="ml-2"><i class="fas fa-pencil-alt"></i></a></td>
-                            <td>
-                               <button type="submit" class="btn btn-danger btn-sm" onclick="deleteSlide({{$slide->id}})"><i class="fa fa-times"></i></button>       
-                            </td>
-                        </tr>
-                @endforeach
-                <tr class="col-lg-12 text-center">
-                    {{$slides->links()}}
-                </tr>
+                <tbody id="recordSlide">
+                    @foreach($slides as $key => $slide)
+                            <tr>
+                                <th scope="row">{{$key+1}}</th>
+                                <td>{{$slide->title}}</td>
+                                <td>
+                                    <img width="150" src="{{asset('upload/'.$slide->image)}}" alt="">
+                                </td>
+                                <td><a href="{{$slide->link}}" target="_blank">{{$slide->link}}</a></td>
+                                <td>
+                                    @if($slide->active_status == 1)
+                                        Hiển thị
+                                    @else
+                                        Ẩn đi
+                                    @endif
+                                </td>
+                                <td><a onclick="editSlide({{$slide->id}})" href="#" class="ml-2"><i class="fas fa-pencil-alt"></i></a></td>
+                                <td>
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="deleteSlide({{$slide->id}})"><i class="fa fa-times"></i></button>       
+                                </td>
+                            </tr>
+                    @endforeach
+                    <tr class="col-lg-12 text-center">
+                        {{$slides->links()}}
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -117,6 +114,9 @@
 @endsection 
 @section('script')
    <script>
+    $('body').on('hidden.bs.modal', '.modal', function() {
+        $(".text-danger").html("");
+    });
        CKEDITOR.replace('editorSlide');
       function editSlide(id)
       {
@@ -172,6 +172,25 @@
                 
             }
         });
+      }
+      function searchSlide()
+      {   
+         event.preventDefault();
+         var search = $('#searchSlide').val();
+         $.ajax({
+               type: 'GET',
+               url: "{{route('searchSlide')}}",
+               data:{search:search},
+               success: function(data) {
+                  console.log(data);
+                  $('#recordSlide').html(data.data.output);
+
+               },
+               error: function(error) {
+                   console.log(error);
+               }
+          });
+        
       }
       function deleteSlide(id)
       {

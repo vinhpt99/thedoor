@@ -23,42 +23,31 @@
                     <th scope="col"><input type="checkbox" id="checkAll"></th>
                     <th scope="col">#</th>
                     <th scope="col">Tên</th>
-                    <th scope="col">Số điện thoại</th>
-                    <th scope="col">Trưởng nhóm</th>
+                    <th scope="col">Hình ảnh</th>
+                    <th scope="col">Mô tả</th>
                     <th scope="col">Sửa</th>
                     <th scope="col">Xóa</th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php $i=1; ?>
-
-                @foreach($service as $s)
-                    @if($s->delete_status==1)
+                @foreach($service as $key => $s)
                         <tr>
                             <td>
                                 <input type="checkbox" class="sub_chk" name="id[]" value="{{$s->id}}">
                             </td>
-                            <th scope="row">{{$i}}</th>
+                            <th scope="row">{{$key + 1}}</th>
                             <td>{{$s->service_name}}</td>
                             <td>
-                                <img width="150" src="{{asset('storage/img/'.$s->logo)}}" alt="">
+                                <img width="150" src="{{asset('upload/'.$s->logo)}}" alt="">
                             </td>
                             <td>
-                                {{$s->describe}}
+                                {!!$s->describe!!}
                             </td>
-                            <td><a href="/admin/service/{{$s->id}}/edit" class="ml-2"><i class="fas fa-pencil-alt"></i></a></td>
-                            <td>
-                                <form method="post">
-                                    <button type="submit" class="btn btn-danger btn-sm"
-                                            formaction="{{ url('/admin/service', ['id'=>$s->id]) }}"
-                                            onclick="return confirm('Xoá bộ phận nhân sự ? ');"><i class="fa fa-times"></i></button>
-                                    @method('delete')
-                                    @csrf
-                                </form>
+                            <td><a href="{{url('admin/service/edit/'.$s->id)}}" class="ml-2"><i class="fas fa-pencil-alt"></i></a></td>
+                            <td>  
+                               <button onclick="deleteService({{$s->id}})" type="submit" class="btn btn-danger btn-sm" onclick=""><i class="fa fa-times"></i></button>
                             </td>
                         </tr>
-                        <?php $i++; ?>
-                    @endif
                 @endforeach
                 <tr class="col-lg-12 text-center">
                     {{$service->links()}}
@@ -68,4 +57,27 @@
             </form>
         </div>
     </div>
-@stop
+@endsection
+@section('script')
+   <script>
+        function deleteService(id)
+        {  
+            event.preventDefault();
+           confirm("Bạn chắc chắn muốn xóa !");
+           $.ajax({
+               type: 'GET',
+               url: "{{route('deleteService')}}",
+               data:{id:id},
+               success: function(data) {
+                  console.log(data);
+                  toastr.error('Bạn đã xóa!')
+                  window.location.reload().delay(500);
+               },
+               error: function(error) {
+                   console.log(error);
+               }
+          });
+        }
+   </script> 
+@endsection
+

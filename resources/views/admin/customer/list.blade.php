@@ -16,50 +16,32 @@
                     <th scope="col">#</th>
                     <th scope="col">Tên</th>
                     <th scope="col">Ảnh</th>
-                    <th scope="col">Sản phẩm</th>
                     <th scope="col">Số điện thoại</th>
+                    <th scope="col">Địa chỉ</th>
                     <th scope="col">Email</th>
                     <th scope="col">Sửa</th>
                     <th scope="col">Xóa</th>
                 </tr>
                 </thead>
                 <tbody>
-
-                <?php $i = 1; ?>
-                @foreach($customer as $c)
-
-                    @if($c->delete_status==1)
+                @foreach($customer as $key => $c)
                         <tr>
                             <td>
                                 <input type="checkbox" class="sub_chk" name="id[]" value="{{$c->id}}">
                             </td>
-                            <th scope="row">{{$i}}</th>
+                            <th scope="row">{{$key + 1}}</th>
                             <td>{{$c->customer_name}}</td>
                             <td>
-                                <img width="150" src="{{asset('storage/img/'.$c->image)}}" alt="">
-                            </td>
-                            <td>
-                                <a href="{{url('/admin/list-products/'.$c->id)}}">
-                                    {{$c->pds->where('delete_status',1)->count()}}
-                                </a>
+                                <img width="150" src="{{asset('upload/'.$c->image)}}" alt="">
                             </td>
                             <td>{{$c->phone}}</td>
+                            <td>{{$c->address}}</td>
                             <td>{{$c->email}}</td>
-                            <td><a href="/admin/customer/{{$c->id}}/edit" class="ml-2"><i
-                                        class="fas fa-pencil-alt"></i></a></td>
+                            <td><a href="{{url('admin/customer/edit/'.$c->id)}}" class="ml-2"><i class="fas fa-pencil-alt"></i></a></td>
                             <td>
-                                <form method="post">
-                                    <button type="submit" class="btn btn-danger btn-sm"
-                                            formaction="{{ url('/admin/customer', ['id'=>$c->id]) }}"
-                                            onclick="return confirm('Xoá khách hàng ? ');"><i
-                                            class="fa fa-times"></i></button>
-                                    @method('delete')
-                                    @csrf
-                                </form>
+                                    <button onclick="deleteCustomer({{$c->id}})" type="submit" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button>
                             </td>
                         </tr>
-                        <?php $i++; ?>
-                    @endif
                 @endforeach
                 <tr class="col-lg-12 text-center">
                     {{$customer->links()}}
@@ -69,4 +51,26 @@
             </form>
         </div>
     </div>
-@stop
+@endsection
+@section('script')
+    <script>
+      function deleteCustomer(id)
+      {
+        event.preventDefault();
+          confirm("Bạn chắc chắn muốn xóa khách hàng này ?")
+          $.ajax({
+               type: 'GET',
+               url: "{{route('deleteCustomer')}}",
+               data:{id:id},
+               success: function(data) {
+                  console.log(data);
+                  toastr.error('Bạn đã xóa!')
+                  window.location.reload().delay(500);
+               },
+               error: function(error) {
+                   console.log(error);
+               }
+          });
+      }
+    </script>
+@endsection

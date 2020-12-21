@@ -47,7 +47,7 @@
                                 @elseif($layout->offset == 7)
                                     <option value="6">Contact</option>
                                 @elseif($layout->offset == 8)
-                                    <option value="8">Footer</option>';
+                                    <option value="8">Footer</option>
                                 @endif
                             </td>
                             <td>
@@ -82,7 +82,7 @@
                         <div class="col-md-12">
                             <form action="" method="POST" enctype="multipart/form-data">
                                 @csrf
-                                <input type="text" id="idLayout" name="idLayout">
+                                <input hidden type="text" id="idLayout" name="idLayout">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Giao diện</label>
                                     <select name="offset" id="offset" class="form-control">
@@ -142,9 +142,9 @@
                 method: 'post',
                 data: data,
                 success: function(data) {
-                    console.log(data);
-                  
-                
+                    $("#modalEditLayout").modal('hide'); 
+                    toastr.success('Sửa thành công!')
+                    window.location.reload().delay(500);
                 },
                 contentType: false,
                 processData: false,

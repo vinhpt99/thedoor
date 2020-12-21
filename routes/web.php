@@ -9,6 +9,16 @@ use App\Http\Controllers\SlideController;
 use App\Http\Controllers\LayoutController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\DetailController;
+use App\Http\Controllers\HirePageController;
+use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\FeedBackController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -43,6 +53,7 @@ Route::group(['prefix' => 'admin', 'middleware'=>'authLogin'], function () {
     Route::get('/slide/edit',[SlideController::class, 'editSlide'])->name('editSlide');
     Route::post('/slide/edit/submit',[SlideController::class, 'posteditSlide'])->name('posteditSlide');
     Route::get('/slide/delete',[SlideController::class, 'deleteSlide'])->name('deleteSlide');
+    Route::get('/slide/search',[SlideController::class, 'searchSlide'])->name('searchSlide');
     //layout
     Route::get('/layout',[LayoutController::class, 'getLayout']); 
     Route::get('/layout/create',[LayoutController::class, 'getAddLayout']); 
@@ -53,9 +64,57 @@ Route::group(['prefix' => 'admin', 'middleware'=>'authLogin'], function () {
     //department(bộ phận)
     Route::get('/dept',[DepartmentController::class, 'getDept']); 
     Route::get('/dept/create',[DepartmentController::class, 'getAddDept']); 
+    Route::get('/dept/delete',[DepartmentController::class, 'deleteDept'])->name('deleteDept'); 
+    Route::get('/dept/edit',[DepartmentController::class, 'getEditDept'])->name('editDept'); 
+    Route::post('/dept/create',[DepartmentController::class, 'postAddDept']);
+    Route::post('/dept/edit/submit',[DepartmentController::class, 'postEditDept'])->name('posteditDept'); 
     //staff(nhân viên)
     Route::get('/staff',[StaffController::class, 'getStaff']); 
-    Route::get('/staff/create',[StaffController::class, 'getAddStaff']); 
-    Route::post('/staff/create',[StaffController::class, 'postAddStaff']); 
+    Route::get('/staff/edit/{id}',[StaffController::class, 'editStaff']); 
+    Route::get('/staff/delete',[StaffController::class, 'deleteStaff'])->name('deleteStaff'); 
+    Route::post('/staff/edit/{id}',[StaffController::class, 'posteditStaff']); 
+    //user
+    Route::get('/user',[UserController::class, 'getUser']); 
+    Route::get('/user/edit/{id}',[UserController::class, 'getEditUser']);
+    Route::post('/user/edit/{id}',[UserController::class, 'postEditUser']);
+    Route::get('/user/create',[UserController::class, 'getAddStaff']); 
+    Route::post('/user/create',[UserController::class, 'postAddStaff']); 
+    Route::get('/user/delete',[UserController::class, 'deleteUser'])->name('deleteUser');
+    //khách hàng(customer)
+    Route::get('/customer',[CustomerController::class, 'getCustomer']); 
+    Route::get('/customer/create',[CustomerController::class, 'getAddCustomer']); 
+    Route::get('/customer/edit/{id}',[CustomerController::class, 'editCustomer']); 
+    Route::post('/customer/edit/{id}',[CustomerController::class, 'postditCustomer']); 
+    Route::post('/customer/add',[CustomerController::class, 'postAddCustomer']); 
+    Route::get('/customer/delete',[CustomerController::class, 'deleteCustomer'])->name('deleteCustomer'); 
+    //service
+    Route::get('/service',[ServiceController::class, 'getService']); 
+    Route::get('/service/create',[ServiceController::class, 'getAddService']); 
+    Route::post('/service/create',[ServiceController::class, 'postAddService']); 
+    Route::get('/service/edit/{id}',[ServiceController::class, 'editService']); 
+    Route::post('/service/edit/{id}',[ServiceController::class, 'posteditService']); 
+    Route::get('/service/delete',[ServiceController::class, 'deleteService'])->name('deleteService');
+    //sản phẩm
+    Route::get('/product',[ProductController::class, 'getProduct']); 
+    Route::get('/product/create',[ProductController::class, 'addProduct']); 
+    Route::post('/product/create',[ProductController::class, 'postaddProduct']); 
+    Route::get('/product/edit/{id}',[ProductController::class, 'editProduct']); 
+    Route::post('/product/edit/{id}',[ProductController::class, 'posteditProduct']); 
+    //detailProduct
+    Route::get('/detail',[DetailController::class, 'getDetail']);
+    Route::get('/detail/create',[DetailController::class, 'getAddDetail']); 
+    Route::post('/detail/add',[DetailController::class, 'postAddDetail']); 
+    Route::get('/detail/edit/{id}',[DetailController::class, 'editDetail']); 
+    Route::post('/detail/edit/{id}',[DetailController::class, 'postEditDetail']); 
+    Route::get('/detail/delete',[DetailController::class, 'deleteDetail'])->name('deleteDetail'); 
+   
+    //liên hệ
+    Route::get('/hire_page',[HirePageController::class, 'getHirePage']);
+    //cộng sự
+    Route::get('/candidate',[CandidateController::class, 'getCandidate']);
+    //phản hồi
+    Route::get('/feed_back',[FeedBackController::class, 'getFeedback']);
+    // feed_back
 
+ 
 });

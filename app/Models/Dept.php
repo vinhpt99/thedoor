@@ -9,8 +9,5 @@ class Dept extends Model
 {
     use HasFactory;
     protected $table = 'depts';
-    public function leader()
-    {
-        return $this->belongsTo('App\Models\Staff', 'leader_id');
-    }
+    
 }

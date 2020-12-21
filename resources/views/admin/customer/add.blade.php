@@ -4,7 +4,7 @@
 @section('content')
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
-            <form action="/admin/customer" method="POST" enctype="multipart/form-data">
+            <form action="{{url('admin/customer/add')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label for="exampleInputEmail1">Tên khách hàng :  </label>

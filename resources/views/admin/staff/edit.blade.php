@@ -4,8 +4,7 @@
 @section('content')
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
-            <form action="/admin/staff/{{$staff->id}}" method="POST" enctype="multipart/form-data">
-                {{ method_field('PATCH') }}
+            <form action="{{url('admin/staff/edit/'.$staff->id)}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label for="exampleInputEmail1">Tên nhân viên : </label>
@@ -43,7 +42,7 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <img width="300" src="{{asset('storage/img/'.$staff->photo)}}" alt="">
+                        <img width="300" src="{{asset('upload/'.$staff->photo)}}" alt="">
                     </div>
                     <div class="col">
                         <div class="form-group">
@@ -55,21 +54,22 @@
 
                 <div class="form-group">
                     <label for="exampleInputPassword1">Câu chuyện : </label>
-                    <textarea name="story" id="text" cols="30" rows="10">{{$staff->story}}</textarea>
-                    <script src={{ url('ckeditor/ckeditor.js') }}></script>
-                    <script>
-                        CKEDITOR.replace('text', {
-                            filebrowserBrowseUrl: '{{ route('ckfinder_browser') }}',
-                        });
-                    </script>
-                    @include('ckfinder::setup')
+                    <textarea name="editorStaff" id="editorStaff" cols="30" rows="10">{{$staff->story}}</textarea>
+                      
                 </div>
                 <div class="form-group text-center mt-2">
                     <button type="submit" class="btn btn-primary"><i class="fas fa-sync pr-1"></i>Cập nhật</button>
-
                 </div>
             </form>
         </div>
     </div>
-@stop
+@endsection
+@section('script')
+<script>
+    CKEDITOR.replace('editorStaff');
+        $('body').on('hidden.bs.modal', '.modal', function() {
+            $(".text-danger").html("");
+        });
+</script>
+@endsection
 

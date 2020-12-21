@@ -42,7 +42,7 @@
                                 <td><span class="badge badge-warning">Chờ xét duyệt</span></a>
                                 </td>
                                 <td>
-                                   <a href="/admin/blog/{{$b->id}}"><i class="fa fa-eye"></i></a>
+                                   <a onclick="event.preventDefault()" href="#"><i class="fa fa-eye"></i></a>
                                 </td>
                             </tr>    
                     @endforeach

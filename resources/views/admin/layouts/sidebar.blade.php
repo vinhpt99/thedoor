@@ -80,7 +80,7 @@
                     <div class="collapse" id="mem" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="{{url('admin/staff')}}">Danh sách</a>
-                            <a class="nav-link" href="{{url('admin/staff/create')}}">Thêm mới</a>
+                            <a class="nav-link" href="{{url('admin/user/create')}}">Thêm mới</a>
                         </nav>
                     </div>
                     {{-- Dich vu--}}
@@ -92,8 +92,8 @@
                     </a>
                     <div class="collapse" id="ser" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="/admin/service/create">Thêm mới</a>
-                            <a class="nav-link" href="/admin/service">Danh sách</a>
+                            <a class="nav-link" href="{{url('admin/service')}}">Danh sách</a>
+                            <a class="nav-link" href="{{url('admin/service/create')}}">Thêm mới</a>
                         </nav>
                     </div>
                     {{-- Khach hang--}}
@@ -105,8 +105,8 @@
                     </a>
                     <div class="collapse" id="cus" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="/admin/customer/create">Thêm mới</a>
-                            <a class="nav-link" href="/admin/customer">Danh sách</a>
+                            <a class="nav-link" href="{{url('admin/customer')}}">Danh sách</a>
+                            <a class="nav-link" href="{{url('admin/customer/create')}}">Thêm mới</a>
                         </nav>
                     </div>
                     {{-- San pham--}}
@@ -118,11 +118,11 @@
                     </a>
                     <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                            <a class="nav-link collapsed" href="/admin/product/create">
-                                Thêm mới
-                            </a>
-                            <a class="nav-link collapsed" href="/admin/product">
+                            <a class="nav-link collapsed" href="{{url('admin/product')}}">
                                 Danh sách
+                            </a>
+                            <a class="nav-link collapsed" href="{{url('admin/product/create')}}">
+                                Thêm mới
                             </a>
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseError"
                                 aria-expanded="false" aria-controls="pagesCollapseError">
@@ -132,8 +132,8 @@
                             <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"
                                 data-parent="#sidenavAccordionPages">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="/admin/detail/create">Thêm bài viết</a>
-                                    <a class="nav-link" href="/admin/detail">Danh sách</a>
+                                    <a class="nav-link" href="{{url('admin/detail')}}">Danh sách</a>
+                                    <a class="nav-link" href="{{url('admin/detail/create')}}">Thêm bài viết</a>
                                 </nav>
                             </div>
                         </nav>
@@ -147,11 +147,11 @@
                     </a>
                     <div class="collapse" id="user" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                            <a class="nav-link collapsed" href="/admin/user/create">
-                                Thêm mới
-                            </a>
-                            <a class="nav-link collapsed" href="/admin/user">
+                            <a class="nav-link collapsed" href="{{url('admin/user')}}">
                                 Danh sách
+                            </a>
+                            <a class="nav-link collapsed" href="{{url('admin/user/create')}}">
+                                Thêm mới
                             </a>
                         </nav>
                     </div>
@@ -165,12 +165,12 @@
             </a>
             <div class="collapse" id="request" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                 <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="/admin/hire_page">Liên hệ</a>
+                    <a class="nav-link" href="{{url('admin/hire_page')}}">Liên hệ</a>
                     @if (Auth::user()->type ==1)
-                    <a class="nav-link" href="/admin/candidate">Trở thành cộng sự</a>
+                    <a class="nav-link" href="{{url('admin/candidate')}}">Trở thành cộng sự</a>
                     @endif
                     
-                    <a class="nav-link" href="/admin/feed_back">Phản hồi</a>
+                    <a class="nav-link" href="{{url('admin/feed_back')}}">Phản hồi</a>
                 </nav>
             </div>
         </div>

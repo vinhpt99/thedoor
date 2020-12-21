@@ -30,50 +30,34 @@
                         <th scope="col">Tên</th>
                         <th scope="col">Ảnh</th>
                         <th scope="col">Số điện thoại</th>
+                        <th scope="col">Email</th>
                         <th scope="col">Bộ phận</th>
                         <th scope="col">Sửa</th>
                         <th scope="col">Xóa</th>
                     </tr>
                     </thead>
                     <tbody>
-
-                    <?php $i = 1; ?>
-                    @foreach($staff as $s)
-                        @if($s->delete_status==1)
+                    @foreach($staff as $key => $s)
                             <tr>
                                 <td>
                                     <input type="checkbox" class="sub_chk" name="id[]" value="{{$s->id}}">
                                 </td>
-                                <th scope="row">{{$i}}</th>
+                                <th scope="row">{{$key + 1}}</th>
                                 <td>{{$s->staff_name}}</td>
                                 <td>
-                                    <img width="150" src="{{asset('storage/img/'.$s->photo)}}" alt="">
+                                    <img width="150" src="{{asset('upload/'.$s->photo)}}" alt="">
                                 </td>
                                 <td>{{$s->phone}}</td>
+                                <td>{{$s->email}}</td>
                                 <td>
-                                    @if(!empty($s->dept))
-                                        @if($s->dept->delete_status == 1)
-                                            {{$s->dept->dept_name}}
-                                        @endif
-
-                                    @endif
-
+                                    {{$s->dept_name}}
                                 </td>
-                                <td><a href="/admin/staff/{{$s->id}}/edit" class="ml-2"><i
-                                            class="fas fa-pencil-alt"></i></a></td>
                                 <td>
-                                    <form method="post">
-                                        <button type="submit" class="btn btn-danger btn-sm"
-                                                formaction="{{url('/admin/staff', ['id'=>$s->id])}}"
-                                                onclick="return confirm('Xoá nhân viên ? ');"><i
-                                                class="fa fa-times"></i></button>
-                                        @method('delete')
-                                        @csrf
-                                    </form>
+                                    <a href="{{url('admin/staff/edit/'.$s->id)}}"  class="ml-2"><i class="fas fa-pencil-alt"></i></a></td>
+                                <td>
+                                   <button onclick="deleteStaff({{$s->id}})"  class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button>                                  
                                 </td>
                             </tr>
-                            <?php $i++; ?>
-                        @endif
                     @endforeach
                     <tr class="col-lg-12 text-center">
                         {{$staff->links()}}
@@ -84,4 +68,26 @@
         </div>
 
     </div>
-@stop
+@endsection 
+@section('script')
+    <script>
+       function deleteStaff(id)
+       {
+          event.preventDefault();
+          confirm("Bạn chắc chắn muốn xóa nhân viên này ?")
+          $.ajax({
+               type: 'GET',
+               url: "{{route('deleteStaff')}}",
+               data:{id:id},
+               success: function(data) {
+                  console.log(data);
+                  toastr.error('Bạn đã xóa!')
+                  window.location.reload().delay(500);
+               },
+               error: function(error) {
+                   console.log(error);
+               }
+          });
+       }
+    </script>
+@endsection

@@ -61,7 +61,7 @@
     </div>
 </div>
  <!-- Modal edit blog-->
- <div class="modal fade" id="modalEditBlog">
+<div class="modal fade" id="modalEditBlog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <!-- Modal Header -->
@@ -75,7 +75,7 @@
                     <div class="col-md-12">
                         <form action="" method="POST" enctype="multipart/form-data">
                             @csrf
-                            <input name="idBlog" id="idBlog" type="text">
+                            <input hidden name="idBlog" id="idBlog" type="text">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Tên Blog </label>
                                 <input type="text" name="title" class="form-control" value="" placeholder="Nhập tiêu đề blog">
@@ -93,9 +93,11 @@
                                 <small class="error form-text text-danger"></small>
                             </div>
                             <div class="form-group">
+                             @if(Auth::user()->type == 1)
                                 <label for="exampleInputPassword1">Nội dung</label>
                                 <textarea id="editorBlog" name="editorBlog"  type="text" rows="5" class="form-control"></textarea>        
-                                <small class="error form-text text-danger"></small>
+                                <small id="edittor" class="error form-text text-danger"></small>
+                             @endif
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Trạng thái</label>
@@ -118,6 +120,9 @@
 @section('script')
     <script>
          CKEDITOR.replace('editorBlog');
+         $('body').on('hidden.bs.modal', '.modal', function() {
+             $(".text-danger").html("");
+        });
         function lishBlog()
         {
             event.preventDefault();
@@ -138,11 +143,11 @@
                     $("#modalEditBlog input[name=describle]").val(data.data.describe);
                     $("#imageBlog").attr('src', '{{ url("") }}/upload/' + data.data.thumbnail);
                     CKEDITOR.instances['editorBlog'].setData(data.data.content);
-                    if(status == 1)
+                    if(data.data.status == 1)
                     {
                         $("#selectBlog").append('<option value=1>Hiển thị</option><option value=0>Chưa hiển thị</option>');
                     }
-                    if(status == 0)
+                    if(data.data.status == 0)
                     {
                         $("#selectBlog").append('<option value=0>Chưa hiển thị</option><option value=1>Hiển thị</option>');
                     }
@@ -179,10 +184,9 @@
                         $("#modalEditBlog input[name=" + i + "]").siblings('.error').text(val[0]);
     
                     })
-                    // if (errors.errors.res_hour_open)
-                    //     $("#res_hour_open_edit").text(errors.errors.res_hour_open[0]);
-                    // if (errors.errors.res_hour_close)
-                    //     $("#res_hour_close_edit").text(errors.errors.res_hour_close[0]);
+                    if (errors.errors.editorBlog)
+                        $("#edittor").text(errors.errors.editorBlog[0]);
+                   
                 }
             });
         }
@@ -190,7 +194,7 @@
         {
            event.preventDefault();
            confirm("Bạn chắc chắn muốn xóa blog này ?"); 
-          $.ajax({
+           $.ajax({
                type: 'GET',
                url: "{{route('deleteBlog')}}",
                data:{id:id},

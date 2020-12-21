@@ -4,8 +4,7 @@
 @section('content')
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
-            <form action="/admin/product/{{$product->id}}" method="POST" enctype="multipart/form-data">
-                {{ method_field('PATCH') }}
+            <form action="{{url('admin/product/edit/'.$product->id)}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label for="exampleInputEmail1">Tên sản phẩm : </label>
