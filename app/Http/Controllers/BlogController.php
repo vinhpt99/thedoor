@@ -125,7 +125,7 @@ class BlogController extends Controller
         {
           $file=$request->file('img');
           $img=rand(0,100000)."_".$file->getClientOriginalname();
-            while ( file_exists("uplaod/".$img)){
+            while ( file_exists("upload/".$img)){
               $img=rand(0,100000)."_".$file->getClientOriginalname();
             }           
         $blog->thumbnail = $img;
@@ -140,5 +140,14 @@ class BlogController extends Controller
         $blog->save();
         return redirect('/admin/blog')->with('success', 'Thêm thành công !');
           
+    }
+
+    public function deleteBlogMultiple(){
+        $checkboxArr = $_GET['checkboxArr'];
+        foreach ($checkboxArr as $value){
+            $blog = Blog::find($value);
+            $blog->delete_status = 0;
+            $blog->save();
+        }
     }
 }

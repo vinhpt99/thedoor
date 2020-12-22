@@ -120,4 +120,13 @@ class CustomerController extends Controller
         return redirect('/admin/customer')->with('success', 'Thêm thành công !');
        
     }
+
+    public function deleteCustomerMultiple(){
+        $checkboxArr = $_GET['checkboxArr'];
+        foreach ($checkboxArr as $value){
+            $customer = Customer::find($value);
+            $customer->delete_status = 0;
+            $customer->save();
+        }
+    }
 }

@@ -30,7 +30,7 @@
       <div class="menu fixed-top" id="menu">
         <div class="container-fluid door_header d-flex justify-content-between">
           <div class="logo">
-            <a href="/" class="d-flex justify-content-start">
+            <a href="{{url('/')}}" class="d-flex justify-content-start">
               <div class="thum-logo pr-2 text-dark">
                 <img src="{{asset('img/logo/logo-w.png')}}" class="img-fluid logo1" alt="">
                 <img src="{{asset('img/logo/logo-b.png')}}" class="img-fluid logo2" alt="">
@@ -234,14 +234,14 @@
           @endif
           @endforeach
       @endif
-      @if($clients ==0)
+      @if($clients==0)
          <img src="{{asset('img/layout/page-3.png')}}" alt="" class="about-bg d-none d-sm-block">
       @else
-      @foreach ($layouts as $l)
+      {{-- @foreach ($layouts as $l)
           @if($l->offset ==3)
           <img class="about-bg d-none d-sm-block" src="{{asset('upload/'.$l->link)}}" alt="">
           @endif
-      @endforeach
+      @endforeach --}}
       @endif
       <img class="about-bg d-block d-sm-none" src="{{asset('/img/mobile/page-3.png')}}" alt="">
       <div class="content-client">
@@ -277,7 +277,7 @@
             {{-- end show brand --}}
           </div>
         </div>
-        <div class="social_network" style="margin-top:220px;">
+        <div class="social_network" style="margin-top:200px;">
           <ul class="d-flex pl-2 justify-content-start footer-social social_network__list social_network___page_dark">
             <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
             <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
@@ -501,7 +501,7 @@
           we are creatives, so it might be about bananas and stuff
         </p>
         <div class="view-more d-flex justify-content-end mb-2">
-          <a href="/all-post" class="text-dark d-none d-sm-block"><span>View more</span>
+          <a href="{{url('/all-post')}}" class="text-dark d-none d-sm-block"><span>View more</span>
             <img src="{{asset('/img/arrow-right.png')}}" class="arrow-right" alt="">
           </a>
         </div>
@@ -512,10 +512,10 @@
             <div class="item">
               <div class="col-lg-12">
                 <div class="one-article">
-                  <a href="/post/{{$blog->slug}}" class="thumb-article">
+                  <a href="{{url('post/'.$blog->slug)}}" class="thumb-article">
                     <img src="{{asset('upload/'.$blog->thumbnail)}}" alt="">
                   </a>
-                  <a href="/post/{{$blog->slug}}">
+                  <a href="{{url('post/'.$blog->slug)}}">
                     <h3 class="title-post">{{$blog->title}}</h3>
                   </a>
                   <div class="article-info">
@@ -715,7 +715,7 @@
                   <div class="about-left text-center text-white p1">
                     <div class="col-lg-8 offset-lg-2">
                       <h3 class="text-center pb-3">Be part of our team</h3>
-                      <button type="submit" id="team" class="btn btn-outline-light btn-send"><i class="fa fa-paper-plane pr-1" aria-hidden="true"></i>Send Us</button>
+                      <button onclick="addTeam()" type="submit" id="team" class="btn btn-outline-light btn-send"><i class="fa fa-paper-plane pr-1" aria-hidden="true"></i>Send Us</button>
                     </div>
 
                   </div>
@@ -742,7 +742,7 @@
                     </div>
                     <div class="form-group">
                       <label for="exampleInputEmail1">WHAT'S YOUR PHONE NUMBER?</label>
-                      <input type="text" name="project_name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                      <input type="text" name="phone" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                       <span class="error-form"></span>
                     </div>
                     <div class="form-group">
@@ -782,14 +782,14 @@
         <!-- Section four -->
         <div class="section-four tab-content" id="tab4">
           <form method="POST" id="form3">
-            {{csrf_field()}}
+           @csrf
             <div class="container">
               <div class="row">
                 <div class="col-lg-6 d-none d-sm-block">
                   <div class="about-left text-center text-white p1">
                     <div class="col-lg-8 offset-lg-2">
                       <h3 class="text-center pb-3">Something else</h3>
-                      <button id="something" class="btn btn-outline-light btn-send" name="btn_fb"><i class="fa fa-paper-plane pr-1" aria-hidden="true"></i>Send Us</button>
+                      <button onclick="addFeedBack()" class="btn btn-outline-light btn-send" name="btn_fb"><i class="fa fa-paper-plane pr-1" aria-hidden="true"></i>Send Us</button>
                     </div>
                   </div>
                 </div>
@@ -983,28 +983,78 @@
     $('video').prop('muted', true).play()
   });
   function addHirePage()
-                 {
-                  event.preventDefault();
-                      $.ajax({
-                          url: "{{route('postHirePage')}}",
-                          method: 'post',
-                          data: $('#addHirePage').serialize(),
-                          success: function(data) {
-                              console.log(data);
-                              toastr.success('Gửi yêu cầu thành công!')            
-                          
-                          },
-                          error: function(error) {
-                              var errors = error.responseJSON;
-                            if(errors.errors.email[0])
-                              toastr.error(errors.errors.email[0]);
-                            if(errors.errors.partner_name[0])
-                              toastr.error(errors.errors.partner_name[0]);
-                            if(errors.errors.phone[0])
-                              toastr.error(errors.errors.phone[0]);      
-                          }
-                      });
-                 }
+         {
+            event.preventDefault();
+                $.ajax({
+                    url: "{{route('postHirePage')}}",
+                    method: 'post',
+                    data: $('#addHirePage').serialize(),
+                    success: function(data) {
+                        toastr.success('Gửi yêu cầu thành công!')             
+                    },
+                    error: function(error) {
+                      var errors = error.responseJSON;
+                      if(errors.errors.email[0])
+                        toastr.error(errors.errors.email[0]);
+                      if(errors.errors.partner_name[0])
+                        toastr.error(errors.errors.partner_name[0]);
+                      if(errors.errors.phone[0])
+                        toastr.error(errors.errors.phone[0]);      
+                    }
+                });
+        }
+        function addTeam()
+        {
+          event.preventDefault();
+          $.ajax({
+          header:{
+              'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+          },
+                url:  "{{route('postAddTeam')}}", 
+                data: new FormData($("#form2")[0]),
+                contentType: false,
+                processData: false,
+                method: 'post',
+                success: function(data) {
+                    toastr.success('Gửi yêu cầu thành công!')    
+                },
+                error: function(error) {
+                  var errors = error.responseJSON;
+                      if(errors.errors.name[0])
+                        toastr.error(errors.errors.name[0]);
+                      if(errors.errors.email[0])
+                        toastr.error(errors.errors.email[0]);
+                      if(errors.errors.profile[0])
+                        toastr.error(errors.errors.profile[0]); 
+                      if(errors.errors.phone[0])
+                        toastr.error(errors.errors.phone[0]);     
+                      if(errors.errors.dept_id[0])
+                        toastr.error(errors.errors.dept_id[0]);          
+                }
+            });
+        }
+        function addFeedBack()
+        {
+          event.preventDefault();
+                $.ajax({
+                    url: "{{route('postFeedBack')}}",
+                    method: 'post',
+                    data: $('#form3').serialize(),
+                    success: function(data) {
+                        toastr.success('Gửi phản hồi thành công!')             
+                    },
+                    error: function(error) {
+                      var errors = error.responseJSON;
+                      if(errors.errors.email[0])
+                        toastr.error(errors.errors.email[0]);
+                      if(errors.errors.name[0])
+                        toastr.error(errors.errors.name[0]);
+                      if(errors.errors.describe[0])
+                        toastr.error(errors.errors.describe[0]);      
+                    }
+                });
+
+        }
 </script>
 </body>
 </html>

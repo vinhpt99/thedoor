@@ -13,10 +13,10 @@
             </form>
         </div>
         <div class="col-lg-12">
-            <form method="post">
+            <form method="post" id="show-list-users">
                 @csrf
             <div class="show-delete pb-2">
-                <button class="btn btn-danger btn-sm" formaction="{{url('/admin/usrs/delete')}}"><i class="fa fa-trash mr-1"></i>Xóa mục đã chọn</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteUserMultiple()"><i class="fa fa-trash mr-1"></i>Xóa mục đã chọn</button>
             </div>
             <table class="table">
                 <thead>
@@ -51,11 +51,15 @@
                                 @endif
                                 
                             </td>     
-                             <td>        
-                                <a href="{{url('admin/user/edit/'.$u->id)}}"   class="ml-2"><i class="fas fa-pencil-alt"></i></a></td>    
+                             <td>    
+                                @if(Auth::user()->type == 1)    
+                                <a href="{{url('admin/user/edit/'.$u->id)}}"   class="ml-2"><i class="fas fa-pencil-alt"></i></a></td>   
+                                @endif 
                             </td>
                             <td>
-                                <button  class="btn btn-danger btn-sm" onclick="deleteUser({{$u->id}})"><i class="fa fa-times"></i></button>       
+                                @if(Auth::user()->type == 1)  
+                                <button  class="btn btn-danger btn-sm" onclick="deleteUser({{$u->id}})"><i class="fa fa-times"></i></button>
+                                @endif        
                             </td>
                         </tr>
               @endforeach
@@ -80,14 +84,44 @@
                url: "{{route('deleteUser')}}",
                data:{id:id},
                success: function(data) {
-                  console.log(data);
-                //   toastr.error('Bạn đã xóa!')
-                //   window.location.reload().delay(500);
+                  toastr.error('Bạn đã xóa!')
+                  window.location.reload().delay(500);
                },
                error: function(error) {
                    console.log(error);
                }
           });
+    }
+
+    function deleteUserMultiple() {
+        event.preventDefault();
+        if (confirm("Bạn chắc chắn muốn xóa các user đã chọn?")) {
+            var checkboxArrDeleteMul = [];
+            var listCheckbox = $('#show-list-users tbody input[type=checkbox]');
+            listCheckbox.each(function () {
+                if ($(this).is(":checked")) {
+                    checkboxArrDeleteMul.push($(this).val());
+                }
+            });
+            if (checkboxArrDeleteMul.length != 0) {
+                $.ajax({
+                    type: 'GET',
+                    url: "{{url('admin/user/delete/multiple')}}",
+                    data: {checkboxArr: checkboxArrDeleteMul},
+                    success: function (data) {
+                        console.log(data);
+                        toastr.error('Bạn đã xóa!')
+                        window.location.reload().delay(500);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            }
+            else{
+                toastr.error('Bạn chưa chọn mục nào');
+            }
+        }
     }
 </script>
 @endsection

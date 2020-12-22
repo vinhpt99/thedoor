@@ -2,22 +2,24 @@
 @section('category', 'Liên hệ');
 @section('title', 'Danh sách');
 @section('content')
-<div class="row">
+    <div class="row">
         <div class="col-lg-6 offset-lg-3 mb-2">
             <form method="post" class="d-flex justify-content-start">
                 @csrf
             </form>
         </div>
         <div class="col-lg-12">
-            <form method="post">
+            <form method="post" id="show-list-hirepages">
                 @csrf
-            <div class="show-delete pb-2">
-                <button class="btn btn-danger btn-sm" formaction="{{url('/admin/hp/delete')}}"><i class="fa fa-trash mr-1"></i>Xóa mục đã chọn</button>
-            </div>
-            <table class="table">
-                <thead>
-                <tr>    
-                    <th scope="col"><input type="checkbox" id="checkAll">
+                <div class="show-delete pb-2">
+                    <button class="btn btn-danger btn-sm" onclick="deleteHirepageMultiple()"><i
+                                class="fa fa-trash mr-1"></i>Xóa mục đã chọn
+                    </button>
+                </div>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col"><input type="checkbox" id="checkAll">
                         <th scope="col">#</th>
                         <th scope="col">Tên</th>
                         <th scope="col">Email</th>
@@ -62,4 +64,38 @@
     </div>
                         
                    
+@endsection
+@section('script')
+
+    <script>
+        function deleteHirepageMultiple() {
+            event.preventDefault();
+            if (confirm("Bạn chắc chắn muốn xóa các hirepage đã chọn?")) {
+                var checkboxArrDeleteMul = [];
+                var listCheckbox = $('#show-list-hirepages tbody input[type=checkbox]');
+                listCheckbox.each(function () {
+                    if ($(this).is(":checked")) {
+                        checkboxArrDeleteMul.push($(this).val());
+                    }
+                });
+                if (checkboxArrDeleteMul.length != 0) {
+                    $.ajax({
+                        type: 'GET',
+                        url: "{{url('admin/hirepage/delete/multiple')}}",
+                        data: {checkboxArr: checkboxArrDeleteMul},
+                        success: function (data) {
+                            console.log(data);
+                            toastr.error('Bạn đã xóa!')
+                            window.location.reload().delay(500);
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                } else {
+                    toastr.error('Bạn chưa chọn mục nào');
+                }
+            }
+        }
+    </script>
 @endsection

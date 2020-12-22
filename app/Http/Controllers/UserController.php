@@ -168,4 +168,13 @@ class UserController extends Controller
         }
         return redirect('/admin/user')->with('success', 'Thêm thành công !');
     }
+
+    public function deleteUserMultiple(){
+        $checkboxArr = $_GET['checkboxArr'];
+        foreach ($checkboxArr as $value){
+            $user = User::find($value);
+            $user->delete_status = 0;
+            $user->save();
+        }
+    }
 }

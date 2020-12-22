@@ -21,7 +21,6 @@ class DepartmentController extends Controller
     }
     public function postEditDept(Request $request)
     {
-      
         $validatedData = $request->validate([
             'name' => 'required',
             'phone' => 'required|regex:/(0)[0-9]{9}/'
@@ -101,5 +100,14 @@ class DepartmentController extends Controller
         $dept->save();
         return redirect('/admin/dept')->with('success','Thêm thành công !');
        
+    }
+
+    public function deleteDeptMultiple(){
+        $checkboxArr = $_GET['checkboxArr'];
+        foreach ($checkboxArr as $value){
+            $dept = Dept::find($value);
+            $dept->delete_status = 0;
+            $dept->save();
+        }
     }
 }

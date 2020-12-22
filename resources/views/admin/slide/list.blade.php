@@ -193,9 +193,12 @@
         
       }
       function deleteSlide(id)
-      {
-          confirm("Bạn chắc muốn xóa slide này ?");      
-          $.ajax({
+      {   
+        event.preventDefault();
+          var r = confirm("Bạn chắc muốn xóa slide này ?");      
+          if(r == true)
+          {
+            $.ajax({
                type: 'GET',
                url: "{{route('deleteSlide')}}",
                data:{id:id},
@@ -209,6 +212,8 @@
                }
           });
 
+          }
+         
       }
    </script> 
 @endsection

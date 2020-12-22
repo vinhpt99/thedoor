@@ -15,9 +15,9 @@
         </div>
 
         <div class="col-lg-12">
-            <form method="post">
+            <form method="post" id="show-list-staffs">
                 <div class="show-delete pb-2">
-                    <button class="btn btn-danger btn-sm" formaction="{{url('/admin/sa/delete')}}"><i
+                    <button class="btn btn-danger btn-sm" onclick="deleteStaffMultiple()"><i
                             class="fa fa-trash mr-1"></i>Xóa mục đã chọn
                     </button>
                 </div>
@@ -74,8 +74,10 @@
        function deleteStaff(id)
        {
           event.preventDefault();
-          confirm("Bạn chắc chắn muốn xóa nhân viên này ?")
-          $.ajax({
+          var r = confirm("Bạn chắc chắn muốn xóa nhân viên này ?")
+          if(r == true)
+          {
+            $.ajax({
                type: 'GET',
                url: "{{route('deleteStaff')}}",
                data:{id:id},
@@ -88,6 +90,38 @@
                    console.log(error);
                }
           });
+          }
+       }
+
+       function deleteStaffMultiple() {
+           event.preventDefault();
+           if (confirm("Bạn chắc chắn muốn xóa các staff đã chọn?")) {
+               var checkboxArrDeleteMul = [];
+               var listCheckbox = $('#show-list-staffs tbody input[type=checkbox]');
+               listCheckbox.each(function () {
+                   if ($(this).is(":checked")) {
+                       checkboxArrDeleteMul.push($(this).val());
+                   }
+               });
+               if (checkboxArrDeleteMul.length != 0) {
+                   $.ajax({
+                       type: 'GET',
+                       url: "{{url('admin/staff/delete/multiple')}}",
+                       data: {checkboxArr: checkboxArrDeleteMul},
+                       success: function (data) {
+                           console.log(data);
+                           toastr.error('Bạn đã xóa!')
+                           window.location.reload().delay(500);
+                       },
+                       error: function (error) {
+                           console.log(error);
+                       }
+                   });
+               }
+               else{
+                   toastr.error('Bạn chưa chọn mục nào');
+               }
+           }
        }
     </script>
 @endsection

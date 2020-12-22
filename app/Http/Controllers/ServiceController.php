@@ -98,4 +98,13 @@ class ServiceController extends Controller
         $service->save();
         return redirect('/admin/service')->with('success', 'Thêm thành công !');
     }
+
+    public function deleteServiceMultiple(){
+        $checkboxArr = $_GET['checkboxArr'];
+        foreach ($checkboxArr as $value){
+            $service = Service::find($value);
+            $service->delete_status = 0;
+            $service->save();
+        }
+    }
 }

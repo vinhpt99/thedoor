@@ -9,10 +9,10 @@
             </form>
         </div>
         <div class="col-lg-12">
-            <form method="post">
+            <form id="check" method="post">
                 @csrf
             <div class="show-delete pb-2">
-                <button class="btn btn-danger btn-sm" formaction="{{url('/admin/cn/delete')}}"><i class="fa fa-trash mr-1"></i>Xóa mục đã chọn</button>
+                <button  onclick="deleteFeedbackMultiple()" class="btn btn-danger btn-sm" ><i class="fa fa-trash mr-1"></i>Xóa mục đã chọn</button>
             </div>
             <table class="table">
                 <thead>
@@ -21,8 +21,6 @@
                     <th scope="col">#</td>
                         <th scope="col">Tên người ứng tuyển</th>
                         <th scope="col">Email</th>
-                        <th scope="col">Tên dự án</th>
-                        <th scope="col">Mô tả dự án</th>
                         <th scope="col">Tên bộ phận</th>
                         <th scope="col">Profile</th>
                         <th scope="col">Thời gian tạo</th>
@@ -37,11 +35,11 @@
                             <th scope="row">{{$key + 1}}</th>
                             <td>{{$c->name}}</td>
                             <td>{{$c->email}}</td>
-                            <td>{{$c->project_name}}</td>
-                            <td>{{$c->introduce}}</td>
-                            <td>{{$c->dept_id}}</td>
-                            <td>{{$c->profile}}</td>
-                            <td>{{$c->created_at}}</td>
+                            <td>{{$c->dept_name}}</td>
+                            <td>
+                                <img style="width:8em" alt="Image Blog" src=" {{asset('upload/'.$c->profile)}}">
+                            </td>
+                            <td>{{date('F d Y', strtotime($c->created_at))}}</td>
                         </tr>
                 @endforeach
                 <tr class="col-lg-12 text-center">
@@ -51,8 +49,38 @@
             </table>
         </form>
         </div>
-
     </div>
-                        
-                   
-@stop
+@endsection
+@section('script')
+    <script>
+           function deleteFeedbackMultiple() {
+            event.preventDefault();
+            if (confirm("Bạn chắc chắn muốn xóa các feedback đã chọn?")) {
+                var checkboxArrDeleteMul = [];
+                var listCheckbox = $('#check tbody input[type=checkbox]');
+                listCheckbox.each(function () {
+                    if ($(this).is(":checked")) {
+                        checkboxArrDeleteMul.push($(this).val());
+                    }
+                });
+                if (checkboxArrDeleteMul.length != 0) {
+                    $.ajax({
+                        type: 'GET',
+                        url: "{{url('admin/candidate/delete/multiple')}}",
+                        data: {checkboxArr: checkboxArrDeleteMul},
+                        success: function (data) {
+                            console.log(data);
+                            toastr.error('Bạn đã xóa!')
+                            window.location.reload().delay(500);
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                } else {
+                    toastr.error('Bạn chưa chọn mục nào');
+                }
+            }
+        }
+    </script>
+@endsection

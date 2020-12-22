@@ -29,8 +29,12 @@ use App\Http\Controllers\FeedBackController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::post('/hire_page/create',[FrontendController::class, 'postHirePage'])->name('postHirePage');
+Route::post('/feed_back/create',[FrontendController::class, 'postFeedBack'])->name('postFeedBack');
+Route::post('/team/add',[FrontendController::class, 'postAddTeam'])->name('postAddTeam');
 Route::get('/',[FrontendController::class, 'index']);
+Route::get('/all-post', [FrontendController::class, 'getPost']);
+Route::get('/post/{slug}',[FrontendController::class, 'viewPost']);
 //login
 Route::get('/login',[AuthController::class, 'getLogin'])->name('login');
 Route::post('/login',[AuthController::class, 'authenticate']);
@@ -45,6 +49,7 @@ Route::group(['prefix' => 'admin', 'middleware'=>'authLogin'], function () {
     Route::get('/blog/status',[BlogController::class, 'statusBlog'])->name('statusBlog');
     Route::get('/blog/edit',[BlogController::class, 'editBlog'])->name('editBlog');
     Route::get('/blog/delete',[BlogController::class, 'deleteBlog'])->name('deleteBlog');
+    Route::get('/blog/delete/multiple',[BlogController::class, 'deleteBlogMultiple']);
     Route::post('/blog/edit/submit',[BlogController::class, 'posteditBlog'])->name('posteditBlog');
     //slie
     Route::get('/slide',[SlideController::class, 'getSlide']); 
@@ -61,18 +66,21 @@ Route::group(['prefix' => 'admin', 'middleware'=>'authLogin'], function () {
     Route::get('/layout/edit',[LayoutController::class, 'editLayout'])->name('editLayout');
     Route::post('/layout/edit/submit',[LayoutController::class, 'posteditLayout'])->name('posteditLayout');
     Route::get('/layout/delete',[LayoutController::class, 'deleteLayout'])->name('deleteLayout');
+    Route::get('/layout/delete/multiple',[LayoutController::class, 'deleteLayoutMultiple']);
     //department(bộ phận)
     Route::get('/dept',[DepartmentController::class, 'getDept']); 
     Route::get('/dept/create',[DepartmentController::class, 'getAddDept']); 
     Route::get('/dept/delete',[DepartmentController::class, 'deleteDept'])->name('deleteDept'); 
-    Route::get('/dept/edit',[DepartmentController::class, 'getEditDept'])->name('editDept'); 
+    Route::get('/dept/delete/multiple',[DepartmentController::class, 'deleteDeptMultiple']);
+    Route::get('/dept/edit',[DepartmentController::class, 'getEditDept'])->name('editDept');
     Route::post('/dept/create',[DepartmentController::class, 'postAddDept']);
     Route::post('/dept/edit/submit',[DepartmentController::class, 'postEditDept'])->name('posteditDept'); 
     //staff(nhân viên)
     Route::get('/staff',[StaffController::class, 'getStaff']); 
     Route::get('/staff/edit/{id}',[StaffController::class, 'editStaff']); 
     Route::get('/staff/delete',[StaffController::class, 'deleteStaff'])->name('deleteStaff'); 
-    Route::post('/staff/edit/{id}',[StaffController::class, 'posteditStaff']); 
+    Route::get('/staff/delete/multiple',[StaffController::class, 'deleteStaffMultiple']);
+    Route::post('/staff/edit/{id}',[StaffController::class, 'posteditStaff']);
     //user
     Route::get('/user',[UserController::class, 'getUser']); 
     Route::get('/user/edit/{id}',[UserController::class, 'getEditUser']);
@@ -80,13 +88,15 @@ Route::group(['prefix' => 'admin', 'middleware'=>'authLogin'], function () {
     Route::get('/user/create',[UserController::class, 'getAddStaff']); 
     Route::post('/user/create',[UserController::class, 'postAddStaff']); 
     Route::get('/user/delete',[UserController::class, 'deleteUser'])->name('deleteUser');
+    Route::get('/user/delete/multiple',[UserController::class, 'deleteUserMultiple']);
     //khách hàng(customer)
     Route::get('/customer',[CustomerController::class, 'getCustomer']); 
     Route::get('/customer/create',[CustomerController::class, 'getAddCustomer']); 
     Route::get('/customer/edit/{id}',[CustomerController::class, 'editCustomer']); 
     Route::post('/customer/edit/{id}',[CustomerController::class, 'postditCustomer']); 
     Route::post('/customer/add',[CustomerController::class, 'postAddCustomer']); 
-    Route::get('/customer/delete',[CustomerController::class, 'deleteCustomer'])->name('deleteCustomer'); 
+    Route::get('/customer/delete',[CustomerController::class, 'deleteCustomer'])->name('deleteCustomer');
+    Route::get('/customer/delete/multiple',[BlogController::class, 'deleteCustomerMultiple']);
     //service
     Route::get('/service',[ServiceController::class, 'getService']); 
     Route::get('/service/create',[ServiceController::class, 'getAddService']); 
@@ -94,12 +104,14 @@ Route::group(['prefix' => 'admin', 'middleware'=>'authLogin'], function () {
     Route::get('/service/edit/{id}',[ServiceController::class, 'editService']); 
     Route::post('/service/edit/{id}',[ServiceController::class, 'posteditService']); 
     Route::get('/service/delete',[ServiceController::class, 'deleteService'])->name('deleteService');
+    Route::get('/service/delete/multiple',[ServiceController::class, 'deleteServiceMultiple']);
     //sản phẩm
     Route::get('/product',[ProductController::class, 'getProduct']); 
     Route::get('/product/create',[ProductController::class, 'addProduct']); 
     Route::post('/product/create',[ProductController::class, 'postaddProduct']); 
     Route::get('/product/edit/{id}',[ProductController::class, 'editProduct']); 
     Route::post('/product/edit/{id}',[ProductController::class, 'posteditProduct']); 
+    Route::post('/product/delete/multiple',[ProductController::class, 'deleteProductMultiple']);
     //detailProduct
     Route::get('/detail',[DetailController::class, 'getDetail']);
     Route::get('/detail/create',[DetailController::class, 'getAddDetail']); 
@@ -107,14 +119,20 @@ Route::group(['prefix' => 'admin', 'middleware'=>'authLogin'], function () {
     Route::get('/detail/edit/{id}',[DetailController::class, 'editDetail']); 
     Route::post('/detail/edit/{id}',[DetailController::class, 'postEditDetail']); 
     Route::get('/detail/delete',[DetailController::class, 'deleteDetail'])->name('deleteDetail'); 
-   
+    Route::get('/detail/delete/multiple',[DetailController::class, 'deleteDetailMultiple']);
+
     //liên hệ
     Route::get('/hire_page',[HirePageController::class, 'getHirePage']);
-    Route::post('/hire_page/create',[HirePageController::class, 'postHirePage'])->name('postHirePage');
+    // Route::post('/hire_page/create',[HirePageController::class, 'postHirePage'])->name('postHirePage');
+    Route::get('/hirepage/delete/multiple',[DetailController::class, 'deleteHirepageMultiple']);
     //cộng sự
     Route::get('/candidate',[CandidateController::class, 'getCandidate']);
+    Route::get('/candidate/delete/multiple',[CandidateController::class, 'deleteCandidateMultiple']);
+   
     //phản hồi
     Route::get('/feed_back',[FeedBackController::class, 'getFeedback']);
+    Route::get('/feedback/delete/multiple',[DetailController::class, 'deleteFeedbackMultiple']);
+
     // feed_back
 
  

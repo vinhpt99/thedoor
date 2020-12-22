@@ -13,10 +13,10 @@
             </form>
         </div>
         <div class="col-lg-12">
-            <form method="post">
+            <form method="post" id="show-list-details">
                 @csrf
                 <div class="show-delete pb-2">
-                    <button class="btn btn-danger btn-sm" formaction="{{url('/admin/dts/delete')}}"><i
+                    <button class="btn btn-danger btn-sm" onclick="deleteDetailMultiple()"><i
                             class="fa fa-trash mr-1"></i>Xóa mục đã chọn
                     </button>
                 </div>
@@ -46,7 +46,7 @@
                                 <td><a href="{{url('admin/detail/edit/'.$d->id)}}" class="ml-2"><i class="fas fa-pencil-alt"></i></a></td>
                                 <td>
                                     <button onclick = "deleteDetail({{$d->id}})" type="submit" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button>
-                                </td>        
+                                </td>
                             </tr>
                         @endforeach
                     <tr class="col-lg-12 text-center">
@@ -64,7 +64,9 @@
        function deleteDetail(id)
        {
            event.preventDefault();
-           confirm("Bạn chắc muốn xóa slide này ?");      
+           var r = confirm("Bạn chắc chắn muốn xóa !");
+            if(r == true)
+            {
             $.ajax({
                 type: 'GET',
                 url: "{{route('deleteDetail')}}",
@@ -78,9 +80,39 @@
                     console.log(error);
                 }
             });
+            }
+       }
 
-
-       }       
+       function deleteDetailMultiple() {
+        event.preventDefault();
+           if (confirm("Bạn chắc chắn muốn xóa các detail đã chọn?")) {
+               var checkboxArrDeleteMul = [];
+               var listCheckbox = $('#show-list-details tbody input[type=checkbox]');
+               listCheckbox.each(function () {
+                   if ($(this).is(":checked")) {
+                       checkboxArrDeleteMul.push($(this).val());
+                   }
+               });
+               if (checkboxArrDeleteMul.length != 0) {
+                   $.ajax({
+                       type: 'GET',
+                       url: "{{url('admin/detail/delete/multiple')}}",
+                       data: {checkboxArr: checkboxArrDeleteMul},
+                       success: function (data) {
+                           console.log(data);
+                           toastr.error('Bạn đã xóa!')
+                           window.location.reload().delay(500);
+                       },
+                       error: function (error) {
+                           console.log(error);
+                       }
+                   });
+               }
+               else{
+                   toastr.error('Bạn chưa chọn mục nào');
+               }
+           }
+       }
     </script>
 @endsection
 

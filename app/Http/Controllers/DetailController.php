@@ -78,4 +78,13 @@ class DetailController extends Controller
         $products = Product::select('id','name', 'delete_status')->where('delete_status',1)->get();
         return view('admin.detail_product.add', compact('products'));
     }
+
+    public function deleteDetailMultiple(){
+        $checkboxArr = $_GET['checkboxArr'];
+        foreach ($checkboxArr as $value){
+            $detail = DetailProduct::find($value);
+            $detail->delete_status = 0;
+            $detail->save();
+        }
+    }
 }

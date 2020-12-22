@@ -13,9 +13,9 @@
             </form>
         </div>
         <div class="col-lg-12">
-            <form method="post">
+            <form method="post" id="show-list-services">
             <div class="show-delete pb-2">
-                <button class="btn btn-danger btn-sm" formaction="{{url('/admin/se/delete')}}"><i class="fa fa-trash mr-1"></i>Xóa mục đã chọn</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteServiceMultiple()"><i class="fa fa-trash mr-1"></i>Xóa mục đã chọn</button>
             </div>
             <table class="table">
                 <thead>
@@ -63,8 +63,10 @@
         function deleteService(id)
         {  
             event.preventDefault();
-           confirm("Bạn chắc chắn muốn xóa !");
-           $.ajax({
+            var r = confirm("Bạn chắc chắn muốn xóa !");
+            if(r == true)
+            {
+                $.ajax({
                type: 'GET',
                url: "{{route('deleteService')}}",
                data:{id:id},
@@ -77,7 +79,39 @@
                    console.log(error);
                }
           });
+            }
+          
         }
-   </script> 
+        function deleteServiceMultiple() {
+            event.preventDefault();
+            if (confirm("Bạn chắc chắn muốn xóa các service đã chọn?")) {
+                var checkboxArrDeleteMul = [];
+                var listCheckbox = $('#show-list-services tbody input[type=checkbox]');
+                listCheckbox.each(function () {
+                    if ($(this).is(":checked")) {
+                        checkboxArrDeleteMul.push($(this).val());
+                    }
+                });
+                if (checkboxArrDeleteMul.length != 0) {
+                    $.ajax({
+                        type: 'GET',
+                        url: "{{url('admin/service/delete/multiple')}}",
+                        data: {checkboxArr: checkboxArrDeleteMul},
+                        success: function (data) {
+                            console.log(data);
+                            toastr.error('Bạn đã xóa!')
+                            window.location.reload().delay(500);
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                }
+                else{
+                    toastr.error('Bạn chưa chọn mục nào');
+                }
+            }
+        }
+   </script>
 @endsection
 

@@ -1,6 +1,7 @@
 
 $(document).ready(function () {
    
+   
     $('#owl-article').owlCarousel({
         loop:true,
         margin:10,
@@ -187,38 +188,63 @@ $(window).scroll(function() {
         $('.menu-button').click(function () {
              $('.left-menu .search input').toggleClass('bg-white text-dark');
             $('.left-menu .lang a').removeClass('text-dark').toggleClass('text-white');
-          
+            $('.left-menu .menu-button span').removeClass('bg-dark').toggleClass('bg-white');
         });
+      
+        $('.lang a,span').addClass('text-dark')
+        $('.menu-button span').addClass('bg-dark')
+        $('.left-menu form input').addClass('bg-dark text-white')
         $('.logo h3').addClass('text-dark')    
         lg1.show()
         lg2.hide()
     }else if(scroll >= clients && scroll < what){
+        // // remove dark
+        $('.lang a,span').removeClass('text-dark')
+        $('.menu-button span').removeClass('bg-dark')
+        $('.left-menu form input').removeClass('bg-dark text-white')
         $('.logo h3').removeClass('text-dark')    
         lg1.hide()
         lg2.show()
     }
     else if(scroll >= what && scroll < human){
+        // dark
+        $('.lang a,span').addClass('text-dark')
+        $('.menu-button span').addClass('bg-dark')
+        $('.left-menu form input').addClass('bg-dark text-white')
         $('.logo h3').addClass('text-dark')    
         lg1.show();
         lg2.hide();
     }else if(scroll >= human && scroll < article){
+         // remove dark
+         $('.lang a,span').removeClass('text-dark')
+         $('.menu-button span').removeClass('bg-dark')
+         $('.left-menu form input').removeClass('bg-dark text-white')
          $('.logo h3').removeClass('text-dark')  
         lg1.hide();
         lg2.show();
     }
     else if(scroll >= article && scroll < about){
-     
+          // dark
+          $('.lang a,span').addClass('text-dark')
+          $('.menu-button span').addClass('bg-dark')
+          $('.left-menu form input').addClass('bg-dark text-white')
           $('.logo h3').addClass('text-dark')    
         lg1.show();
         lg2.hide();
     }
     else if(scroll >= about && scroll <footer){
-      
+          // remove dark
+          $('.lang a,span').removeClass('text-dark')
+          $('.menu-button span').removeClass('bg-dark')
+          $('.left-menu form input').removeClass('bg-dark text-white')
           $('.logo h3').removeClass('text-dark')  
         lg1.hide();
         lg2.show();
     }else{
-       
+         // dark
+         $('.lang a,span').addClass('text-dark')
+         $('.menu-button span').addClass('bg-dark')
+         $('.left-menu form input').addClass('bg-dark text-white')
          $('.logo h3').addClass('text-dark')    
         lg1.show();
         lg2.hide();

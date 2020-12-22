@@ -14,10 +14,20 @@ class CandidateController extends Controller
     {   
         $candidate = DB::table('candidates')
         ->where('candidates.delete_status', 1)
-        ->orderBy('created_at','desc')
+        ->orderBy('candidates.created_at','desc')
         ->join('depts', 'candidates.dept_id', '=', 'depts.id')
+        ->select('candidates.*', 'depts.dept_name')
         ->paginate(15);
-        // $candidate = Candidate::select('id', 'name', 'email', 'project_name', 'introduce', 'dept_id', 'profile', 'delete_status','created_at', 'updated_at')->orderBy('created_at','desc')->orderBy('created_at','desc')->paginate(15);
+        
         return view('admin.candidate.list', compact('candidate'));
+    }
+    public function deleteCandidateMultiple()
+    {
+        $checkboxArr = $_GET['checkboxArr'];
+        foreach ($checkboxArr as $value){
+            $candidate = Candidate::find($value);
+            $candidate->delete_status = 0;
+            $candidate->save();
+        }
     }
 }

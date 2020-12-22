@@ -1313,10 +1313,20 @@ div#detail-content {
   background-color: #fff;
 }
 .menu_language {
-  background-color: #0f1112;
+  /* background-color: #0f1112; */
   display: flex;
   position: relative;
   top: 30px;
+  height: 40px;
+  padding: 0 10px;
+  border-radius: 20px;
+}
+.menu_lang_post{
+  background-color: #0f1112;
+  display: flex;
+  position: relative;
+  top: 28px;
+  opacity: 0.5;
   height: 40px;
   padding: 0 10px;
   border-radius: 20px;
