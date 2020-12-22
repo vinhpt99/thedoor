@@ -82,7 +82,7 @@ class StaffController extends Controller
             $users = DB::table('users')
                 ->where('users.delete_status', 1)
                 ->where('users.email', $staff->email)->first();
-            $idUser = $users->id;
+            $idUser = $staff->id;
 
         }
         if ($request->hasFile('img')) {

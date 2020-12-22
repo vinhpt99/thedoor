@@ -78,7 +78,7 @@
           @foreach($slide as $k)
           @if($index==1)
           <div class="carousel-item active">
-            <img class="d-block w-100" src="{{asset('upload/'.$k->link)}}" alt="{{$k->title}}">
+            <img class="d-block w-100" src="{{asset('upload/'.$k->image)}}" alt="{{$k->title}}">
             <div class="carousel-caption">
               <div class="row">
                 <div class="col-12 col-md-7">

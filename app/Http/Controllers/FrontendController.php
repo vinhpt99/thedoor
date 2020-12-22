@@ -113,6 +113,7 @@ class FrontendController extends Controller
     public function index()
     {
         $slide = Slide::select('image','title','describe','link')->where('active_status',1)->where('delete_status',1)->get();
+        // dd($slide);
         $count = Slide::select('*')->where('active_status',1)->where('delete_status',1)->count();
         $serv = Service::select('service_name','id')->where('delete_status',1)->get();
         $sldept = Dept::select('dept_name','id')->where('delete_status',1)->get();

@@ -19,7 +19,7 @@ class LayoutController extends Controller
     public function postAddLayout(Request $request)
     {
         $validatedData = $request->validate([
-            'image' => 'required|mimes:jpg,jpeg,png|max:2048',
+            'image' => 'required|mimes:jpg,jpeg,png,gif|max:4048',
         ],[
             'image.required'=>'Trường ảnh không được để trống',
             'image.mimes'=>'ảnh tải lên không đúng định dạng',
